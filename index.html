@@ -328,7 +328,7 @@
       border: 1.5px solid var(--line-strong);
       border-radius: 14px;
       background: #f9fbff;
-      padding: 0 14px;
+      padding: 0 40px 0 14px;
       font-size: 16px;
       font-weight: 600;
       color: var(--text);
@@ -338,11 +338,20 @@
       -webkit-appearance: none;
     }
 
+    select {
+      background-image:
+        linear-gradient(180deg, #ffffff 0%, #edf2ff 100%),
+        url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6l4 4 4-4' fill='none' stroke='%23566780' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: left 0 top 0, right 14px center;
+      background-size: auto, 14px;
+    }
+
     select:focus,
     input[type="number"]:focus {
       border-color: var(--ana-blue);
       background: white;
-      box-shadow: 0 0 0 4px rgba(11, 87, 208, 0.10);
+      box-shadow: 0 0 0 2px rgba(11, 87, 208, 0.14);
     }
 
     .seg-details {
@@ -673,6 +682,19 @@
     .bottom-v,
     .formula-value {
       font-variant-numeric: tabular-nums;
+    }
+
+    /* ===== Mobile (タッチデバイス) ===== */
+    @media (hover: none) and (pointer: coarse) {
+      select,
+      input[type="number"] {
+        transition: border-color .14s ease, background .14s ease;
+      }
+
+      select:focus,
+      input[type="number"]:focus {
+        box-shadow: none;
+      }
     }
 
     /* ===== Desktop ===== */
@@ -1039,6 +1061,45 @@ function removeAmount(idx) {
 }
 
 // ── Rendering ─────────────────────────────────────────────────────────────────
+function scrollFieldIntoView(el) {
+  if (!el || typeof window === "undefined") return;
+  const rect = el.getBoundingClientRect();
+  const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+
+  // ヘッダー＋タブバー分のオフセット（おおよそ）
+  const offset = 140;
+
+  // すでに適切な位置なら何もしない
+  if (rect.top >= offset && rect.bottom <= vh) return;
+
+  const currentY = window.pageYOffset || document.documentElement.scrollTop || 0;
+  const targetY = currentY + rect.top - offset;
+
+  window.scrollTo({
+    top: Math.max(targetY, 0),
+    behavior: "smooth",
+  });
+}
+
+function attachFocusScrollHandlers() {
+  const root = document.getElementById("tabContent");
+  if (!root) return;
+
+  const fields = root.querySelectorAll(
+    ".segment-card select," +
+    ".segment-card input[type='number']," +
+    ".amount-wrap input[type='number']"
+  );
+
+  fields.forEach(el => {
+    el.addEventListener("focus", () => {
+      // iOS のキーボード表示との競合を少し避けるために遅延
+      setTimeout(() => {
+        scrollFieldIntoView(el.closest(".segment-card") || el.closest(".amount-row") || el);
+      }, 80);
+    }, { passive: true });
+  });
+}
 function h(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -1273,6 +1334,7 @@ function renderContent() {
     </div>
   `;
 
+  attachFocusScrollHandlers();
   updateResult();
 }
 
