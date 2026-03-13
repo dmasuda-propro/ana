@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ANA PP単価計算ツール</title>
+  <style>
+    :root {
+      --ana-blue: #0b57d0;
+      --ana-blue-deep: #083b8a;
+      --ana-blue-soft: #edf4ff;
+      --ana-blue-soft-2: #f6f9ff;
+      --bg: #f3f6fb;
+      --bg-grad-1: #f7f9fd;
+      --bg-grad-2: #eef3fb;
+      --card: rgba(255, 255, 255, 0.92);
+      --card-strong: #ffffff;
+      --text: #172033;
+      --text-sub: #5f6b7a;
+      --text-soft: #8a95a5;
+      --line: #e5ebf4;
+      --line-strong: #d8e2f0;
+      --danger: #d63a49;
+      --danger-bg: #fff3f5;
+      --success: #0b57d0;
+      --shadow-sm: 0 6px 18px rgba(16, 24, 40, 0.05);
+      --shadow-md: 0 12px 32px rgba(16, 24, 40, 0.08);
+      --shadow-lg: 0 18px 44px rgba(16, 24, 40, 0.12);
+      --radius-xl: 24px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --tap: 48px;
+      --bottom-safe: calc(104px + env(safe-area-inset-bottom));
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      background:
+        radial-gradient(circle at top left, #ffffff 0%, transparent 35%),
+        linear-gradient(180deg, var(--bg-grad-1) 0%, var(--bg-grad-2) 100%);
+      padding-bottom: var(--bottom-safe);
+    }
+
+    button,
+    select,
+    input {
+      font: inherit;
+    }
+
+    /* ===== Header ===== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      padding:
+        calc(12px + env(safe-area-inset-top))
+        14px
+        12px;
+      background: rgba(7, 32, 79, 0.82);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 28px rgba(5, 20, 53, 0.22);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      flex-shrink: 0;
+      min-width: 44px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.96);
+      color: #003b8f;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: 1.2px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+    }
+
+    .title-wrap {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .title-wrap h1 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 850;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+
+    .title-wrap p {
+      margin: 4px 0 0;
+      font-size: 11px;
+      color: rgba(255,255,255,0.70);
+      font-weight: 600;
+    }
+
+    /* ===== Tabs ===== */
+    .tab-bar {
+      position: sticky;
+      top: calc(62px + env(safe-area-inset-top));
+      z-index: 25;
+      padding: 10px 12px 8px;
+      background: linear-gradient(180deg, rgba(243,246,251,0.94) 0%, rgba(243,246,251,0.88) 100%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .tab-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .tab-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+      min-width: 0;
+    }
+    .tab-scroll::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      min-height: 40px;
+      padding: 0 12px 0 14px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.84);
+      color: #516073;
+      font-size: 13px;
+      font-weight: 750;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      cursor: pointer;
+      transition: all .18s ease;
+      box-shadow: 0 4px 12px rgba(15,23,42,0.05);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #0a4fbf 0%, #083b8a 100%);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(11, 87, 208, 0.22);
+    }
+
+    .tab-btn .tab-close {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      background: rgba(0,0,0,0.06);
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .tab-btn.active .tab-close {
+      background: rgba(255,255,255,0.18);
+    }
+
+    .btn-new-tab {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ffffff 0%, #f7faff 100%);
+      color: var(--ana-blue);
+      font-size: 22px;
+      line-height: 1;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* ===== Content ===== */
+    .content {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 10px 12px 28px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.78);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: 16px 14px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .card-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .card-title-main {
+      font-size: 15px;
+      font-weight: 850;
+      color: #16315f;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .card-title-main::before {
+      content: "";
+      width: 7px;
+      height: 20px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #0b57d0 0%, #083b8a 100%);
+      display: inline-block;
+      box-shadow: 0 4px 10px rgba(11, 87, 208, 0.22);
+    }
+
+    .card-sub {
+      font-size: 11px;
+      color: var(--text-soft);
+      font-weight: 700;
+      flex-shrink: 0;
+      padding-top: 3px;
+    }
+
+    /* ===== Segment list ===== */
+    .segment-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .segment-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+      padding: 12px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+    }
+
+    .segment-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .segment-label {
+      font-size: 12px;
+      font-weight: 850;
+      color: var(--ana-blue);
+      background: var(--ana-blue-soft);
+      border-radius: 999px;
+      padding: 7px 11px;
+      border: 1px solid #dbe8ff;
+    }
+
+    .btn-del {
+      width: 34px;
+      height: 34px;
+      border: 1px solid #f0d7dc;
+      border-radius: 999px;
+      background: var(--danger-bg);
+      color: #c64654;
+      font-size: 15px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .btn-del.placeholder {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .field-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .field label,
+    .amount-field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 750;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      min-height: var(--tap);
+      border: 1.5px solid var(--line-strong);
+      border-radius: 14px;
+      background: #f9fbff;
+      padding: 0 14px;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      outline: none;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    select:focus,
+    input[type="number"]:focus {
+      border-color: var(--ana-blue);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(11, 87, 208, 0.10);
+    }
+
+    .seg-details {
+      margin-top: 10px;
+    }
+
+    .seg-summary {
+      list-style: none;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 750;
+      color: var(--ana-blue);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .seg-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .segment-metrics {
+      margin-top: 6px;
+      padding: 12px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #f7faff 0%, #f3f7ff 100%);
+      border: 1px solid #dfe9fb;
+    }
+
+    .formula-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      padding: 5px 0;
+    }
+
+    .formula-op-row {
+      text-align: center;
+      font-size: 13px;
+      font-weight: 900;
+      color: #8090a7;
+      padding: 2px 0;
+    }
+
+    .formula-label {
+      font-size: 11px;
+      font-weight: 750;
+      color: #6a7688;
+    }
+
+    .formula-value {
+      font-size: 14px;
+      font-weight: 850;
+      color: #17335c;
+      text-align: right;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .formula-value.na {
+      color: #c23a3a;
+      font-size: 12px;
+    }
+
+    .formula-value.empty {
+      color: #bcc5d1;
+    }
+
+    .formula-value.pp {
+      color: #0b57d0;
+      font-size: 17px;
+    }
+
+    .segment-formula-note {
+      margin-top: 9px;
+      font-size: 10px;
+      color: #7e8897;
+      font-weight: 650;
+      line-height: 1.55;
+    }
+
+    .seg-options {
+      margin-top: 8px;
+    }
+    .roundtrip-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-sub);
+      font-weight: 650;
+    }
+    .roundtrip-toggle input {
+      width: 18px;
+      height: 18px;
+    }
+
+    .btn-add,
+    .btn-add-amount {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 850;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+    }
+
+    .btn-add {
+      margin-top: 14px;
+      border: none;
+      color: white;
+      background: linear-gradient(135deg, #0b57d0 0%, #083b8a 100%);
+      box-shadow: 0 12px 24px rgba(11, 87, 208, 0.20);
+    }
+
+    .btn-add-amount {
+      margin-top: 12px;
+      border: 1.5px dashed #bfd0ee;
+      background: #f8fbff;
+      color: var(--ana-blue);
+    }
+
+    .empty-msg {
+      color: #98a2b3;
+      text-align: center;
+      padding: 22px 0;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    /* ===== Amounts ===== */
+    .amount-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .amount-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .amount-wrap {
+      position: relative;
+    }
+
+    .amount-wrap input {
+      padding-right: 44px;
+    }
+
+    .yen {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #8b95a7;
+      font-size: 13px;
+      font-weight: 800;
+      pointer-events: none;
+    }
+
+    .amount-total-box {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fbfdff 0%, #f5f9ff 100%);
+      border: 1px solid #e1eaf7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .amount-total-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-sub);
+    }
+
+    .amount-total-value {
+      font-size: 24px;
+      font-weight: 900;
+      color: #16315f;
+      letter-spacing: -0.02em;
+    }
+
+    /* ===== Results ===== */
+    .results {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .result-box {
+      border-radius: 18px;
+      padding: 15px 12px;
+      text-align: center;
+      background: linear-gradient(180deg, #fbfdff 0%, #f6f9ff 100%);
+      border: 1px solid #e3ebfb;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
+    }
+
+    .result-box.hl {
+      background: linear-gradient(135deg, #0a4fbf 0%, #083b8a 100%);
+      border-color: transparent;
+      box-shadow: 0 14px 28px rgba(11, 87, 208, 0.20);
+    }
+
+    .r-label {
+      font-size: 11px;
+      color: #7d8797;
+      margin-bottom: 8px;
+      font-weight: 850;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .result-box.hl .r-label {
+      color: rgba(255,255,255,0.70);
+    }
+
+    .r-val {
+      font-size: 26px;
+      font-weight: 900;
+      color: #16315f;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+
+    .result-box.hl .r-val {
+      color: white;
+    }
+
+    .r-unit {
+      font-size: 11px;
+      color: #98a2b3;
+      margin-top: 6px;
+      font-weight: 750;
+    }
+
+    .result-box.hl .r-unit {
+      color: rgba(255,255,255,0.60);
+    }
+
+    /* ===== Sticky bottom summary ===== */
+    .bottom-summary {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+      background:
+        linear-gradient(180deg, rgba(243,246,251,0) 0%, rgba(243,246,251,0.88) 18%, rgba(243,246,251,1) 100%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .bottom-summary-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.88);
+      border-radius: 22px;
+      box-shadow: var(--shadow-lg);
+      padding: 10px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .bottom-item {
+      text-align: center;
+      background: linear-gradient(180deg, #fbfdff 0%, #f5f9ff 100%);
+      border-radius: 16px;
+      padding: 10px 6px;
+      border: 1px solid #e7eef9;
+    }
+
+    .bottom-item.hl {
+      background: linear-gradient(135deg, #0a4fbf 0%, #083b8a 100%);
+      border-color: transparent;
+    }
+
+    .bottom-k {
+      font-size: 10px;
+      font-weight: 850;
+      color: #7d8797;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .bottom-item.hl .bottom-k {
+      color: rgba(255,255,255,0.66);
+    }
+
+    .bottom-v {
+      font-size: 18px;
+      font-weight: 900;
+      color: #16315f;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .bottom-item.hl .bottom-v {
+      color: white;
+    }
+
+    .bottom-u {
+      font-size: 10px;
+      color: #98a2b3;
+      margin-top: 4px;
+      font-weight: 750;
+    }
+
+    .bottom-item.hl .bottom-u {
+      color: rgba(255,255,255,0.58);
+    }
+
+    .amount-total-value,
+    .r-val,
+    .bottom-v,
+    .formula-value {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ===== Desktop ===== */
+    @media (min-width: 769px) {
+      body {
+        padding-bottom: 28px;
+      }
+
+      .tab-bar {
+        top: calc(68px + env(safe-area-inset-top));
+        padding-top: 12px;
+      }
+
+      .content {
+        padding: 18px 18px 28px;
+      }
+
+      .card {
+        padding: 20px 18px;
+      }
+
+      .field-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .results {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .bottom-summary {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">ANA</div>
+    <div class="title-wrap">
+      <h1>PP単価計算ツール</h1>
+      <p>国内線 / スマホ最適化UI</p>
+    </div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <div class="tab-row">
+    <div id="tabButtons" class="tab-scroll"></div>
+    <button class="btn-new-tab" onclick="newTab()" title="新しいタブ" aria-label="新しいタブを追加">＋</button>
+  </div>
+</div>
+
+<div id="tabContent"></div>
+
+<div class="bottom-summary">
+  <div class="bottom-summary-inner">
+    <div class="bottom-item">
+      <div class="bottom-k">合計 PP</div>
+      <div class="bottom-v" id="b-totalPP">-</div>
+      <div class="bottom-u">ポイント</div>
+    </div>
+    <div class="bottom-item">
+      <div class="bottom-k">旅行総額</div>
+      <div class="bottom-v" id="b-amount">-</div>
+      <div class="bottom-u">円</div>
+    </div>
+    <div class="bottom-item hl">
+      <div class="bottom-k">PP 単価</div>
+      <div class="bottom-v" id="b-rate">-</div>
+      <div class="bottom-u">円 / PP</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Route data (raw names) ─────────────────────────────────────────────────────
+const RAW = [
+  ["東京","札幌",510],["東京","稚内",679],["東京","女満別",609],["東京","旭川",576],
+  ["東京","根室中標津",605],["東京","オホーツク紋別",623],["東京","釧路",555],
+  ["東京","帯広",526],["東京","函館",424],["東京","秋田",279],["東京","大館能代",314],
+  ["東京","庄内",218],["東京","仙台",177],["東京","新潟",167],["東京","八丈島",177],
+  ["東京","富山",176],["東京","小松",211],["東京","能登",207],["東京","名古屋",193],
+  ["東京","大阪",280],["東京","岡山",356],["東京","広島",414],["東京","岩国",457],
+  ["東京","山口宇部",510],["東京","鳥取",328],["東京","米子",384],["東京","萩・石見",474],
+  ["東京","高松",354],["東京","徳島",329],["東京","松山",438],["東京","高知",393],
+  ["東京","北九州",534],["東京","福岡",567],["東京","佐賀",584],["東京","大分",499],
+  ["東京","熊本",568],["東京","長崎",610],["東京","宮崎",561],["東京","鹿児島",601],
+  ["東京","沖縄",984],["東京","石垣",1224],["東京","宮古",1158],
+  ["大阪","札幌",666],["大阪","女満別",797],["大阪","旭川",739],["大阪","釧路",753],
+  ["大阪","函館",578],["大阪","青森",523],["大阪","秋田",439],["大阪","福島",339],
+  ["大阪","仙台",396],["大阪","新潟",314],["大阪","萩・石見",200],["大阪","松山",159],
+  ["大阪","高知",119],["大阪","福岡",287],["大阪","大分",219],["大阪","熊本",290],
+  ["大阪","長崎",330],["大阪","宮崎",292],["大阪","鹿児島",329],["大阪","沖縄",739],
+  ["大阪","石垣",969],["大阪","宮古",906],
+  ["名古屋","札幌",614],["名古屋","女満別",738],["名古屋","旭川",686],["名古屋","函館",525],
+  ["名古屋","秋田",380],["名古屋","仙台",322],["名古屋","新潟",249],["名古屋","松山",246],
+  ["名古屋","福岡",374],["名古屋","大分",306],["名古屋","熊本",375],["名古屋","長崎",417],
+  ["名古屋","宮崎",372],["名古屋","鹿児島",411],["名古屋","沖縄",809],["名古屋","石垣",1044],
+  ["名古屋","宮古",979],
+  ["札幌","稚内",171],["札幌","利尻",159],["札幌","オホーツク紋別",133],["札幌","女満別",148],
+  ["札幌","根室中標津",178],["札幌","釧路",136],["札幌","函館",90],["札幌","青森",153],
+  ["札幌","秋田",238],["札幌","福島",400],["札幌","仙台",335],["札幌","静岡",592],
+  ["札幌","新潟",369],["札幌","富山",493],["札幌","小松",529],["札幌","岡山",708],
+  ["札幌","広島",749],["札幌","松山",791],["札幌","福岡",882],["札幌","沖縄",1397],
+  ["仙台","小松",276],["仙台","広島",513],["仙台","福岡",665],
+  ["福岡","新潟",572],["福岡","小松",390],["福岡","対馬",81],["福岡","五島福江",113],
+  ["福岡","天草",78],["福岡","宮崎",131],["福岡","屋久島",225],["福岡","沖縄",537],
+  ["福岡","宮古",683],["福岡","石垣",737],
+  ["熊本","天草",42],
+  ["長崎","壱岐",60],["長崎","五島福江",67],["長崎","対馬",98],
+  ["鹿児島","種子島",88],["鹿児島","屋久島",102],["鹿児島","喜界島",246],
+  ["鹿児島","与論",358],["鹿児島","奄美",242],["鹿児島","徳之島",296],["鹿児島","沖永良部",326],
+  ["沖縄","仙台",1130],["沖縄","静岡",863],["沖縄","新潟",1052],["沖縄","広島",650],
+  ["沖縄","岩国",614],["沖縄","松山",607],["沖縄","高松",677],["沖縄","北九州",563],
+  ["沖縄","熊本",494],["沖縄","長崎",484],["沖縄","宮崎",455],["沖縄","鹿児島",429],
+  ["沖縄","奄美",199],["沖縄","沖永良部",107],["沖縄","宮古",177],["沖縄","石垣",247],
+  ["奄美","喜界島",16],["奄美","与論",125],["奄美","徳之島",65],
+  ["徳之島","沖永良部",30],
+  ["宮古","石垣",72],["宮古","名古屋",979],["宮古","福岡",683],
+];
+
+// ── Airport name mapping ───────────────────────────────────────────────────────
+const NAME_MAP = {
+  "東京": "東京(羽田)",
+  "大阪": "大阪(伊丹)",
+  "札幌": "新千歳",
+  "名古屋": "名古屋(中部)",
+  "沖縄": "那覇",
+  "宮古": "宮古島",
+};
+const rn = n => NAME_MAP[n] || n;
+
+const routeData = RAW.map(([a, b, m]) => [rn(a), rn(b), m]);
+
+// ── Priority sort ──────────────────────────────────────────────────────────────
+const PRIORITY = [
+  "東京(羽田)", "東京(成田)", "大阪(伊丹)", "大阪(関西)", "大阪(神戸)",
+  "新千歳", "名古屋(中部)", "福岡", "那覇", "石垣", "宮古島",
+];
+
+function sortAp(arr) {
+  return [...arr].sort((a, b) => {
+    const ai = PRIORITY.indexOf(a), bi = PRIORITY.indexOf(b);
+    if (ai >= 0 && bi >= 0) return ai - bi;
+    if (ai >= 0) return -1;
+    if (bi >= 0) return 1;
+    return a.localeCompare(b, "ja");
+  });
+}
+
+const ALL_AIRPORTS = sortAp([...new Set(routeData.flatMap(([a, b]) => [a, b]))]);
+
+function getMiles(a, b) {
+  for (const [x, y, m] of routeData) {
+    if ((x === a && y === b) || (x === b && y === a)) return m;
+  }
+  return null;
+}
+
+function getDests(ap) {
+  const d = [];
+  for (const [a, b] of routeData) {
+    if (a === ap) d.push(b);
+    else if (b === ap) d.push(a);
+  }
+  return sortAp(d);
+}
+
+// ── Fare / calculation ────────────────────────────────────────────────────────
+const FARES = [
+  "シンプル", "スタンダード",
+  "フレックス", "Biz", "ANAカード優待割引", "島民割引",
+  "フレックス（国際線接続専用）", "株主優待割引",
+  "セール", "個人包括旅行運賃（APIT）",
+  "ユース", "シニア", "包括団体旅行運賃（IITA）", "包括旅行割引運賃（ITE）",
+];
+
+function getRate(fare, seat) {
+  if (seat === "ファーストクラス") {
+    if (["フレックス","Biz","ANAカード優待割引","フレックス（国際線接続専用）"].includes(fare)) return 150;
+    if (["スタンダード","株主優待割引"].includes(fare)) return 130;
+    if (fare === "シンプル") return 120;
+    if (fare === "セール") return 100;
+    return null;
+  }
+  if (["フレックス","Biz","ANAカード優待割引","島民割引","フレックス（国際線接続専用）"].includes(fare)) return 100;
+  if (["株主優待割引","スタンダード"].includes(fare)) return 80;
+  if (fare === "シンプル") return 70;
+  if (["セール","個人包括旅行運賃（APIT）","ユース","シニア","包括団体旅行運賃（IITA）"].includes(fare)) return 50;
+  if (fare === "包括旅行割引運賃（ITE）") return 30;
+  return null;
+}
+
+function getBoardPt(fare, seat) {
+  if (seat === "ファーストクラス") {
+    return ["フレックス","Biz","ANAカード優待割引","株主優待割引","スタンダード","シンプル"].includes(fare) ? 400 : 0;
+  }
+  if (["フレックス","Biz","ANAカード優待割引","株主優待割引"].includes(fare)) return 400;
+  if (fare === "スタンダード") return 200;
+  if (fare === "シンプル") return 100;
+  return 0;
+}
+
+const ROUTE_MULT = 2.0;
+
+function calcPP(seg) {
+  if (!seg.ap1 || !seg.ap2) return null;
+  const m = getMiles(seg.ap1, seg.ap2);
+  if (m === null) return null;
+  const r = getRate(seg.fare, seg.seat);
+  if (r === null) return null;
+  return Math.round(m * r / 100 * ROUTE_MULT) + getBoardPt(seg.fare, seg.seat);
+}
+
+// ── State ─────────────────────────────────────────────────────────────────────
+const ST = { tabs: [], activeId: null, nextId: 1, nextSegId: 1 };
+
+function mkSeg(ap1 = "", ap2 = "", seat = "エコノミークラス", fare = "スタンダード", roundtrip = false) {
+  return { id: ST.nextSegId++, ap1, ap2, seat, fare, roundtrip };
+}
+
+function mkTab(name, segDefs = [], amountOrAmounts = [""]) {
+  const id = ST.nextId++;
+  const segments = segDefs.map(s => mkSeg(
+    s.ap1,
+    s.ap2,
+    s.seat ?? "エコノミークラス",
+    s.fare ?? "スタンダード",
+    s.roundtrip ?? false,
+  ));
+  const amounts = Array.isArray(amountOrAmounts)
+    ? (amountOrAmounts.length ? amountOrAmounts : [""])
+    : [amountOrAmounts];
+  return { id, name, segments, amounts };
+}
+
+function getTab(id) {
+  return ST.tabs.find(t => t.id === (id ?? ST.activeId));
+}
+
+function refreshTabName(tab) {
+  const filled = tab.segments.filter(s => s.ap1 && s.ap2);
+  if (!filled.length) {
+    tab.name = "新規タブ";
+    return;
+  }
+
+  const names = [];
+  filled.forEach((seg, i) => {
+    if (i === 0) {
+      names.push(seg.ap1, seg.ap2);
+    } else {
+      names.push(seg.ap2);
+    }
+  });
+
+  tab.name = names.join("→");
+}
+
+// ── Default tabs ──────────────────────────────────────────────────────────────
+function initDefaults() {
+  ST.tabs = [
+    mkTab("羽田→那覇", [
+      { ap1: "東京(羽田)", ap2: "那覇" },
+    ]),
+    mkTab("羽田→那覇→石垣", [
+      { ap1: "東京(羽田)", ap2: "那覇" },
+      { ap1: "那覇", ap2: "石垣" },
+    ]),
+    mkTab("羽田→石垣", [
+      { ap1: "東京(羽田)", ap2: "石垣" },
+    ]),
+    mkTab("羽田→新千歳", [
+      { ap1: "東京(羽田)", ap2: "新千歳" },
+    ]),
+  ];
+  ST.activeId = ST.tabs[0].id;
+}
+
+// ── Tab operations ────────────────────────────────────────────────────────────
+function switchTab(id) {
+  ST.activeId = id;
+  renderTabs();
+  renderContent();
+}
+
+function newTab() {
+  const t = mkTab("新規タブ", [{ ap1: "", ap2: "", seat: "エコノミークラス", fare: "スタンダード" }]);
+  ST.tabs.push(t);
+  ST.activeId = t.id;
+  renderTabs();
+  renderContent();
+}
+
+function deleteTab(id) {
+  const idx = ST.tabs.findIndex(t => t.id === id);
+  if (idx < 0) return;
+  ST.tabs.splice(idx, 1);
+  if (ST.activeId === id) {
+    ST.activeId = ST.tabs.length ? ST.tabs[Math.max(0, idx - 1)].id : null;
+  }
+  renderTabs();
+  renderContent();
+}
+
+function addSegment() {
+  const tab = getTab();
+  tab.segments.push(mkSeg());
+  refreshTabName(tab);
+  renderTabs();
+  renderContent();
+}
+
+function removeSegment(segId) {
+  const tab = getTab();
+  tab.segments = tab.segments.filter(s => s.id !== segId);
+  if (!tab.segments.length) {
+    tab.segments.push(mkSeg());
+  }
+  refreshTabName(tab);
+  renderTabs();
+  renderContent();
+}
+
+function updateSeg(segId, field, value) {
+  const tab = getTab();
+  const seg = tab.segments.find(s => s.id === segId);
+  if (!seg) return;
+
+  seg[field] = value;
+
+  if (field === "ap1") {
+    const dests = getDests(value);
+    if (!dests.includes(seg.ap2)) seg.ap2 = "";
+  }
+
+  refreshTabName(tab);
+  renderTabs();
+  renderContent();
+}
+
+function onAmountInput(idx, value) {
+  const tab = getTab();
+  if (!tab.amounts) tab.amounts = [""];
+  tab.amounts[idx] = value;
+  updateResult();
+}
+
+function addAmount() {
+  const tab = getTab();
+  if (!tab.amounts) tab.amounts = [""];
+  tab.amounts.push("");
+  renderContent();
+}
+
+function removeAmount(idx) {
+  const tab = getTab();
+  if (!tab.amounts) return;
+  tab.amounts.splice(idx, 1);
+  if (!tab.amounts.length) tab.amounts.push("");
+  renderContent();
+}
+
+// ── Rendering ─────────────────────────────────────────────────────────────────
+function h(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function renderTabs() {
+  document.getElementById("tabButtons").innerHTML = ST.tabs.map(tab => `
+    <button class="tab-btn${tab.id === ST.activeId ? " active" : ""}" onclick="switchTab(${tab.id})">
+      ${h(tab.name)}
+      ${ST.tabs.length > 1 ? `<span class="tab-close" onclick="event.stopPropagation();deleteTab(${tab.id})">×</span>` : ""}
+    </button>
+  `).join("");
+}
+
+function renderSegCard(seg, index, totalSegs) {
+  const dests = seg.ap1 ? getDests(seg.ap1) : ALL_AIRPORTS;
+  const miles = (seg.ap1 && seg.ap2) ? getMiles(seg.ap1, seg.ap2) : null;
+  const rate = miles !== null ? getRate(seg.fare, seg.seat) : null;
+  const board = rate !== null ? getBoardPt(seg.fare, seg.seat) : null;
+  const basePP = rate !== null && miles !== null
+    ? Math.round(miles * rate / 100 * ROUTE_MULT) + board
+    : null;
+  const pp = basePP !== null
+    ? basePP * (seg.roundtrip ? 2 : 1)
+    : null;
+
+  const apOpts = (list, sel) =>
+    list.map(a => `<option value="${h(a)}"${a === sel ? " selected" : ""}>${h(a)}</option>`).join("");
+
+  return `
+    <div class="segment-card">
+      <div class="segment-top">
+        <div class="segment-label">区間 ${index + 1}</div>
+        ${
+          totalSegs > 1
+            ? `<button class="btn-del" onclick="removeSegment(${seg.id})" aria-label="区間 ${index + 1} を削除">✕</button>`
+            : `<div class="btn-del placeholder" aria-hidden="true">✕</div>`
+        }
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label>出発空港</label>
+          <select onchange="updateSeg(${seg.id}, 'ap1', this.value)">
+            <option value="">選択してください</option>
+            ${apOpts(ALL_AIRPORTS, seg.ap1)}
+          </select>
+        </div>
+
+        <div class="field">
+          <label>到着空港</label>
+          <select onchange="updateSeg(${seg.id}, 'ap2', this.value)">
+            <option value="">選択してください</option>
+            ${apOpts(dests, seg.ap2)}
+          </select>
+        </div>
+
+        <div class="field">
+          <label>座席クラス</label>
+          <select onchange="updateSeg(${seg.id}, 'seat', this.value)">
+            <option value="エコノミークラス"${seg.seat === "エコノミークラス" ? " selected" : ""}>エコノミークラス</option>
+            <option value="ファーストクラス"${seg.seat === "ファーストクラス" ? " selected" : ""}>ファーストクラス</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>予約クラス</label>
+          <select onchange="updateSeg(${seg.id}, 'fare', this.value)">
+            ${FARES.map(f => `<option value="${h(f)}"${f === seg.fare ? " selected" : ""}>${h(f)}</option>`).join("")}
+          </select>
+        </div>
+      </div>
+
+      <div class="seg-options">
+        <label class="roundtrip-toggle">
+          <input type="checkbox"
+            ${seg.roundtrip ? "checked" : ""}
+            onchange="updateSeg(${seg.id}, 'roundtrip', this.checked)" />
+          <span>この区間を往復（同じ条件）として計算する</span>
+        </label>
+      </div>
+
+      <details class="seg-details">
+        <summary class="seg-summary">区間の計算式を表示</summary>
+        <div class="segment-metrics">
+          <div class="formula-line">
+            <div class="formula-label">区間基本マイレージ</div>
+            <div class="formula-value ${(!seg.ap1 || !seg.ap2) ? "empty" : (miles === null ? "na" : "")}">
+              ${!seg.ap1 || !seg.ap2 ? "-" : (miles === null ? "路線なし" : miles.toLocaleString())}
+            </div>
+          </div>
+
+          <div class="formula-op-row">×</div>
+
+          <div class="formula-line">
+            <div class="formula-label">積算率（予約クラス・運賃）</div>
+            <div class="formula-value ${(miles === null || rate === null) ? (miles !== null && rate === null ? "na" : "empty") : ""}">
+              ${!seg.ap1 || !seg.ap2
+                ? "-"
+                : (miles === null
+                    ? "-"
+                    : (rate === null ? "該当なし" : `${rate}%`))}
+            </div>
+          </div>
+
+          <div class="formula-op-row">×</div>
+
+          <div class="formula-line">
+            <div class="formula-label">路線倍率</div>
+            <div class="formula-value">×${ROUTE_MULT}</div>
+          </div>
+
+          <div class="formula-op-row">＋</div>
+
+          <div class="formula-line">
+            <div class="formula-label">搭乗ポイント</div>
+            <div class="formula-value ${board === null ? "empty" : ""}">
+              ${board === null ? "-" : board.toLocaleString()}
+            </div>
+          </div>
+
+          <div class="formula-op-row">＝</div>
+
+          <div class="formula-line">
+            <div class="formula-label">プレミアムポイント${seg.roundtrip ? "（往復）" : ""}</div>
+            <div class="formula-value pp ${pp === null ? "empty" : ""}">
+              ${pp === null ? "-" : pp.toLocaleString()}
+            </div>
+          </div>
+
+          <div class="segment-formula-note">
+            プレミアムポイント ＝ 区間基本マイレージ × 積算率（予約クラス・運賃） × 路線倍率 ＋ 搭乗ポイント
+          </div>
+        </div>
+      </details>
+    </div>
+  `;
+}
+
+function renderContent() {
+  const tab = getTab();
+  if (!tab) {
+    document.getElementById("tabContent").innerHTML = "";
+    updateResult();
+    return;
+  }
+
+  const totalPP = tab.segments.reduce((s, seg) => {
+    const base = calcPP(seg);
+    if (base === null) return s;
+    const mult = seg.roundtrip ? 2 : 1;
+    return s + base * mult;
+  }, 0);
+  const amounts = (tab.amounts && tab.amounts.length) ? tab.amounts : [""];
+  const totalAmount = amounts.reduce((s, a) => s + (parseFloat(a) || 0), 0);
+  const ppRate = (totalAmount > 0 && totalPP > 0) ? (totalAmount / totalPP).toFixed(1) : "-";
+
+  document.getElementById("tabContent").innerHTML = `
+    <div class="content">
+      <div class="card">
+        <div class="card-title">
+          <div class="card-title-main">フライト区間</div>
+          <div class="card-sub">路線倍率 ×${ROUTE_MULT}</div>
+        </div>
+
+        <div class="segment-list">
+          ${tab.segments.length
+            ? tab.segments.map((seg, i) => renderSegCard(seg, i, tab.segments.length)).join("")
+            : `<div class="empty-msg">「区間を追加」から路線を追加してください</div>`}
+        </div>
+
+        <button class="btn-add" onclick="addSegment()">＋ 区間を追加</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <div class="card-title-main">PP単価計算</div>
+          <div class="card-sub">旅行代金の合計から算出</div>
+        </div>
+
+        <div class="amount-list">
+          ${amounts.map((amt, idx) => `
+            <div class="amount-row">
+              <div class="amount-field">
+                <label>旅行総額${amounts.length > 1 ? ` ${idx + 1}` : ""}</label>
+                <div class="amount-wrap">
+                  <input
+                    type="number"
+                    placeholder="30000"
+                    min="0"
+                    value="${h(amt)}"
+                    oninput="onAmountInput(${idx}, this.value)"
+                  />
+                  <span class="yen">円</span>
+                </div>
+              </div>
+              ${amounts.length > 1 ? `<button class="btn-del" onclick="removeAmount(${idx})" aria-label="金額 ${idx + 1} を削除">✕</button>` : `<div class="btn-del placeholder" aria-hidden="true">✕</div>`}
+            </div>
+          `).join("")}
+        </div>
+
+        <button class="btn-add-amount" onclick="addAmount()">＋ 金額を追加</button>
+
+        <div class="amount-total-box">
+          <div class="amount-total-label">合計金額</div>
+          <div class="amount-total-value">${totalAmount > 0 ? totalAmount.toLocaleString() : "-"}</div>
+        </div>
+
+        <div class="results">
+          <div class="result-box">
+            <div class="r-label">合計 PP</div>
+            <div class="r-val" id="r-totalPP">${totalPP.toLocaleString()}</div>
+            <div class="r-unit">ポイント</div>
+          </div>
+
+          <div class="result-box">
+            <div class="r-label">旅行総額</div>
+            <div class="r-val" id="r-amount">${totalAmount > 0 ? totalAmount.toLocaleString() : "-"}</div>
+            <div class="r-unit">円</div>
+          </div>
+
+          <div class="result-box hl">
+            <div class="r-label">PP 単価</div>
+            <div class="r-val" id="r-rate">${ppRate}</div>
+            <div class="r-unit">円 / PP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  updateResult();
+}
+
+function updateResult() {
+  const tab = getTab();
+  const totalPP = tab
+    ? tab.segments.reduce((s, seg) => {
+        const base = calcPP(seg);
+        if (base === null) return s;
+        const mult = seg.roundtrip ? 2 : 1;
+        return s + base * mult;
+      }, 0)
+    : 0;
+  const amounts = tab && tab.amounts && tab.amounts.length ? tab.amounts : [""];
+  const totalAmount = amounts.reduce((s, a) => s + (parseFloat(a) || 0), 0);
+  const ppRate = (totalAmount > 0 && totalPP > 0) ? (totalAmount / totalPP).toFixed(1) : "-";
+
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+
+  setText("r-totalPP", totalPP.toLocaleString());
+  setText("r-amount", totalAmount > 0 ? totalAmount.toLocaleString() : "-");
+  setText("r-rate", ppRate);
+
+  setText("b-totalPP", totalPP.toLocaleString());
+  setText("b-amount", totalAmount > 0 ? totalAmount.toLocaleString() : "-");
+  setText("b-rate", ppRate);
+}
+
+// ── Boot ──────────────────────────────────────────────────────────────────────
+initDefaults();
+renderTabs();
+renderContent();
+</script>
+</body>
+</html>
