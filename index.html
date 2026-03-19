@@ -9,12 +9,10 @@
       --ana-blue: #0b57d0;
       --ana-blue-deep: #083b8a;
       --ana-blue-soft: #edf4ff;
-      --ana-blue-soft-2: #f6f9ff;
       --bg: #f3f6fb;
       --bg-grad-1: #f7f9fd;
       --bg-grad-2: #eef3fb;
       --card: rgba(255, 255, 255, 0.92);
-      --card-strong: #ffffff;
       --text: #172033;
       --text-sub: #5f6b7a;
       --text-soft: #8a95a5;
@@ -22,322 +20,153 @@
       --line-strong: #d8e2f0;
       --danger: #d63a49;
       --danger-bg: #fff3f5;
-      --success: #0b57d0;
-      --shadow-sm: 0 6px 18px rgba(16, 24, 40, 0.05);
-      --shadow-md: 0 12px 32px rgba(16, 24, 40, 0.08);
-      --shadow-lg: 0 18px 44px rgba(16, 24, 40, 0.12);
+      --shadow-sm: 0 6px 18px rgba(16,24,40,0.05);
+      --shadow-md: 0 12px 32px rgba(16,24,40,0.08);
+      --shadow-lg: 0 18px 44px rgba(16,24,40,0.12);
       --radius-xl: 24px;
-      --radius-lg: 20px;
-      --radius-md: 16px;
-      --radius-sm: 12px;
       --tap: 48px;
       --bottom-safe: calc(104px + env(safe-area-inset-bottom));
     }
-
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     html { -webkit-text-size-adjust: 100%; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Hiragino Sans", "Yu Gothic UI", sans-serif;
       color: var(--text);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
-      background:
-        radial-gradient(circle at top left, #ffffff 0%, transparent 35%),
-        linear-gradient(180deg, var(--bg-grad-1) 0%, var(--bg-grad-2) 100%);
+      background: radial-gradient(circle at top left, #ffffff 0%, transparent 35%),
+                  linear-gradient(180deg, var(--bg-grad-1) 0%, var(--bg-grad-2) 100%);
       padding-bottom: var(--bottom-safe);
     }
+    button, select, input { font: inherit; }
 
-    button,
-    select,
-    input {
-      font: inherit;
-    }
-
-    /* ===== Header ===== */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      padding:
-        calc(12px + env(safe-area-inset-top))
-        14px
-        12px;
-      background: rgba(7, 32, 79, 0.82);
+      position: sticky; top: 0; z-index: 30;
+      padding: calc(12px + env(safe-area-inset-top)) 14px 12px;
+      background: rgba(7,32,79,0.82);
       backdrop-filter: blur(14px) saturate(140%);
       -webkit-backdrop-filter: blur(14px) saturate(140%);
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 10px 28px rgba(5, 20, 53, 0.22);
+      box-shadow: 0 10px 28px rgba(5,20,53,0.22);
     }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      max-width: 980px;
-      margin: 0 auto;
-    }
-
+    .header-inner { display: flex; align-items: center; gap: 12px; max-width: 980px; margin: 0 auto; }
     .logo {
-      flex-shrink: 0;
-      min-width: 44px;
-      height: 32px;
-      padding: 0 12px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.96);
-      color: #003b8f;
-      font-weight: 900;
-      font-size: 12px;
-      letter-spacing: 1.2px;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+      flex-shrink: 0; min-width: 44px; height: 32px; padding: 0 12px;
+      border-radius: 999px; display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.96); color: #003b8f;
+      font-weight: 900; font-size: 12px; letter-spacing: 1.2px;
     }
+    .title-wrap { min-width: 0; flex: 1; }
+    .title-wrap h1 { margin: 0; font-size: 16px; font-weight: 850; color: #fff; }
+    .title-wrap p { margin: 4px 0 0; font-size: 11px; color: rgba(255,255,255,0.70); font-weight: 600; }
 
-    .title-wrap {
-      min-width: 0;
-      flex: 1;
-    }
-
-    .title-wrap h1 {
-      margin: 0;
-      font-size: 16px;
-      line-height: 1.35;
-      font-weight: 850;
-      letter-spacing: -0.01em;
-      color: #fff;
-    }
-
-    .title-wrap p {
-      margin: 4px 0 0;
-      font-size: 11px;
-      color: rgba(255,255,255,0.70);
-      font-weight: 600;
-    }
-
-    /* ===== Tabs ===== */
     .tab-bar {
-      position: sticky;
-      top: calc(62px + env(safe-area-inset-top));
-      z-index: 25;
+      position: sticky; top: calc(62px + env(safe-area-inset-top)); z-index: 25;
       padding: 10px 12px 8px;
       background: linear-gradient(180deg, rgba(243,246,251,0.94) 0%, rgba(243,246,251,0.88) 100%);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     }
-
-    .tab-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      max-width: 980px;
-      margin: 0 auto;
-    }
-
-    .tab-scroll {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-      flex: 1;
-      min-width: 0;
-    }
+    .tab-row { display: flex; gap: 8px; align-items: center; max-width: 980px; margin: 0 auto; }
+    .tab-scroll { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; flex: 1; min-width: 0; }
     .tab-scroll::-webkit-scrollbar { display: none; }
-
     .tab-btn {
-      min-height: 40px;
-      padding: 0 12px 0 14px;
-      border: 1px solid transparent;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.84);
-      color: #516073;
-      font-size: 13px;
-      font-weight: 750;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-      flex-shrink: 0;
-      cursor: pointer;
-      transition: all .18s ease;
-      box-shadow: 0 4px 12px rgba(15,23,42,0.05);
+      min-height: 40px; padding: 0 12px 0 14px; border: 1px solid transparent;
+      border-radius: 999px; background: rgba(255,255,255,0.84); color: #516073;
+      font-size: 13px; font-weight: 750; display: inline-flex; align-items: center;
+      gap: 8px; white-space: nowrap; flex-shrink: 0; cursor: pointer;
+      transition: all .18s ease; box-shadow: 0 4px 12px rgba(15,23,42,0.05);
     }
-
     .tab-btn.active {
       background: linear-gradient(135deg, #0a4fbf 0%, #083b8a 100%);
-      color: #fff;
-      box-shadow: 0 10px 22px rgba(11, 87, 208, 0.22);
+      color: #fff; box-shadow: 0 10px 22px rgba(11,87,208,0.22);
     }
-
     .tab-btn .tab-close {
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      background: rgba(0,0,0,0.06);
-      line-height: 1;
-      cursor: pointer;
+      width: 18px; height: 18px; border-radius: 999px; display: inline-flex;
+      align-items: center; justify-content: center; font-size: 12px;
+      background: rgba(0,0,0,0.06); line-height: 1; cursor: pointer;
     }
-
-    .tab-btn.active .tab-close {
-      background: rgba(255,255,255,0.18);
-    }
-
+    .tab-btn.active .tab-close { background: rgba(255,255,255,0.18); }
     .btn-new-tab {
-      width: 40px;
-      height: 40px;
-      border: none;
-      border-radius: 999px;
+      width: 40px; height: 40px; border: none; border-radius: 999px;
       background: linear-gradient(135deg, #ffffff 0%, #f7faff 100%);
-      color: var(--ana-blue);
-      font-size: 22px;
-      line-height: 1;
-      box-shadow: var(--shadow-sm);
-      cursor: pointer;
-      flex-shrink: 0;
+      color: var(--ana-blue); font-size: 22px; line-height: 1;
+      box-shadow: var(--shadow-sm); cursor: pointer; flex-shrink: 0;
     }
 
-    /* ===== Content ===== */
-    .content {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 10px 12px 28px;
-    }
-
+    .content { max-width: 980px; margin: 0 auto; padding: 10px 12px 28px; }
     .card {
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.78);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-md);
-      padding: 16px 14px;
-      margin-bottom: 14px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: var(--card); border: 1px solid rgba(255,255,255,0.78);
+      border-radius: var(--radius-xl); box-shadow: var(--shadow-md);
+      padding: 16px 14px; margin-bottom: 14px;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     }
-
     .card-title {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 14px;
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 10px; margin-bottom: 14px;
     }
-
     .card-title-main {
-      font-size: 15px;
-      font-weight: 850;
-      color: #16315f;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      letter-spacing: -0.01em;
+      font-size: 15px; font-weight: 850; color: #16315f;
+      display: flex; align-items: center; gap: 10px;
     }
-
     .card-title-main::before {
-      content: "";
-      width: 7px;
-      height: 20px;
-      border-radius: 999px;
+      content: ""; width: 7px; height: 20px; border-radius: 999px;
       background: linear-gradient(180deg, #0b57d0 0%, #083b8a 100%);
-      display: inline-block;
-      box-shadow: 0 4px 10px rgba(11, 87, 208, 0.22);
+      display: inline-block; box-shadow: 0 4px 10px rgba(11,87,208,0.22);
     }
+    .card-sub { font-size: 11px; color: var(--text-soft); font-weight: 700; flex-shrink: 0; padding-top: 3px; }
 
-    .card-sub {
-      font-size: 11px;
-      color: var(--text-soft);
-      font-weight: 700;
-      flex-shrink: 0;
-      padding-top: 3px;
-    }
-
-    /* ===== Segment list ===== */
-    .segment-list {
-      display: grid;
-      gap: 12px;
-    }
-
+    .segment-list { display: grid; gap: 12px; }
     .segment-card {
-      border: 1px solid var(--line);
-      border-radius: 20px;
+      border: 1px solid var(--line); border-radius: 20px;
       background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-      padding: 12px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
+      padding: 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
     }
+    .segment-card.intl { border-color: #ffd5b8; background: linear-gradient(180deg, #fffaf7 0%, #fff7f3 100%); }
+    .segment-card.intl-dom { border-color: #b8ddb8; background: linear-gradient(180deg, #f7fff7 0%, #f3fff3 100%); }
 
     .segment-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; margin-bottom: 10px;
     }
-
     .segment-label {
-      font-size: 12px;
-      font-weight: 850;
-      color: var(--ana-blue);
-      background: var(--ana-blue-soft);
-      border-radius: 999px;
-      padding: 7px 11px;
-      border: 1px solid #dbe8ff;
+      font-size: 12px; font-weight: 850; border-radius: 999px; padding: 5px 11px;
     }
+    .segment-label.domestic { color: var(--ana-blue); background: var(--ana-blue-soft); border: 1px solid #dbe8ff; }
+    .segment-label.intl { color: #c04a10; background: #fff0e8; border: 1px solid #ffc8a0; }
+    .segment-label.intl-dom { color: #2a7a10; background: #f0ffe8; border: 1px solid #b0e890; }
+
+    .seg-type-row { display: flex; gap: 5px; margin-bottom: 10px; }
+    .seg-type-btn {
+      flex: 1; min-height: 32px; border-radius: 999px;
+      border: 1.5px solid var(--line-strong); background: #f9fbff;
+      color: var(--text-sub); font-size: 11px; font-weight: 750;
+      cursor: pointer; white-space: nowrap; padding: 0 8px;
+      transition: all .15s ease;
+    }
+    .seg-type-btn.active-dom { background: var(--ana-blue-soft); color: var(--ana-blue); border-color: #bfd5ff; }
+    .seg-type-btn.active-intl { background: #fff0e8; color: #c04a10; border-color: #ffc8a0; }
+    .seg-type-btn.active-idom { background: #f0ffe8; color: #2a7a10; border-color: #b0e890; }
 
     .btn-del {
-      width: 34px;
-      height: 34px;
-      border: 1px solid #f0d7dc;
-      border-radius: 999px;
-      background: var(--danger-bg);
-      color: #c64654;
-      font-size: 15px;
-      cursor: pointer;
-      flex-shrink: 0;
+      width: 34px; height: 34px; border: 1px solid #f0d7dc; border-radius: 999px;
+      background: var(--danger-bg); color: #c64654; font-size: 15px;
+      cursor: pointer; flex-shrink: 0;
     }
+    .btn-del.placeholder { visibility: hidden; pointer-events: none; }
 
-    .btn-del.placeholder {
-      visibility: hidden;
-      pointer-events: none;
+    .field-grid { display: grid; gap: 10px; }
+    .field label {
+      display: block; font-size: 12px; font-weight: 750;
+      color: var(--text-sub); margin-bottom: 6px;
     }
-
-    .field-grid {
-      display: grid;
-      gap: 10px;
+    select, input[type="number"] {
+      width: 100%; min-height: var(--tap); border: 1.5px solid var(--line-strong);
+      border-radius: 14px; background: #f9fbff; padding: 0 40px 0 14px;
+      font-size: 16px; font-weight: 600; color: var(--text); outline: none;
+      transition: border-color .18s, box-shadow .18s, background .18s;
+      appearance: none; -webkit-appearance: none;
     }
-
-    .field label,
-    .amount-field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 750;
-      color: var(--text-sub);
-      margin-bottom: 6px;
-      letter-spacing: -0.01em;
-    }
-
-    select,
-    input[type="number"] {
-      width: 100%;
-      min-height: var(--tap);
-      border: 1.5px solid var(--line-strong);
-      border-radius: 14px;
-      background: #f9fbff;
-      padding: 0 40px 0 14px;
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text);
-      outline: none;
-      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
-      appearance: none;
-      -webkit-appearance: none;
-    }
-
     select {
       background-image:
         linear-gradient(180deg, #ffffff 0%, #edf2ff 100%),
@@ -346,387 +175,147 @@
       background-position: left 0 top 0, right 14px center;
       background-size: auto, 14px;
     }
-
-    select:focus,
-    input[type="number"]:focus {
-      border-color: var(--ana-blue);
-      background: white;
-      box-shadow: 0 0 0 2px rgba(11, 87, 208, 0.14);
+    select:focus, input[type="number"]:focus {
+      border-color: var(--ana-blue); background: white;
+      box-shadow: 0 0 0 2px rgba(11,87,208,0.14);
     }
 
-    .seg-details {
-      margin-top: 10px;
-    }
-
+    .seg-details { margin-top: 10px; }
     .seg-summary {
-      list-style: none;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: 750;
-      color: var(--ana-blue);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+      list-style: none; cursor: pointer; font-size: 11px; font-weight: 750;
+      color: var(--ana-blue); display: inline-flex; align-items: center; gap: 4px;
     }
-    .seg-summary::-webkit-details-marker {
-      display: none;
-    }
-
+    .seg-summary::-webkit-details-marker { display: none; }
     .segment-metrics {
-      margin-top: 6px;
-      padding: 12px;
-      border-radius: 18px;
+      margin-top: 6px; padding: 12px; border-radius: 18px;
       background: linear-gradient(180deg, #f7faff 0%, #f3f7ff 100%);
       border: 1px solid #dfe9fb;
     }
-
     .formula-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 12px;
-      padding: 5px 0;
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 12px; padding: 5px 0;
     }
+    .formula-op-row { text-align: center; font-size: 13px; font-weight: 900; color: #8090a7; padding: 2px 0; }
+    .formula-label { font-size: 11px; font-weight: 750; color: #6a7688; }
+    .formula-value { font-size: 14px; font-weight: 850; color: #17335c; text-align: right; }
+    .formula-value.na { color: #c23a3a; font-size: 12px; }
+    .formula-value.empty { color: #bcc5d1; }
+    .formula-value.pp { color: #0b57d0; font-size: 17px; }
+    .segment-formula-note { margin-top: 9px; font-size: 10px; color: #7e8897; font-weight: 650; line-height: 1.55; }
 
-    .formula-op-row {
-      text-align: center;
-      font-size: 13px;
-      font-weight: 900;
-      color: #8090a7;
-      padding: 2px 0;
-    }
-
-    .formula-label {
-      font-size: 11px;
-      font-weight: 750;
-      color: #6a7688;
-    }
-
-    .formula-value {
-      font-size: 14px;
-      font-weight: 850;
-      color: #17335c;
-      text-align: right;
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-    }
-
-    .formula-value.na {
-      color: #c23a3a;
-      font-size: 12px;
-    }
-
-    .formula-value.empty {
-      color: #bcc5d1;
-    }
-
-    .formula-value.pp {
-      color: #0b57d0;
-      font-size: 17px;
-    }
-
-    .segment-formula-note {
-      margin-top: 9px;
-      font-size: 10px;
-      color: #7e8897;
-      font-weight: 650;
-      line-height: 1.55;
-    }
-
-    .seg-options {
-      margin-top: 8px;
-    }
+    .seg-options { margin-top: 8px; }
     .roundtrip-toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--text-sub);
-      font-weight: 650;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; color: var(--text-sub); font-weight: 650;
     }
-    .roundtrip-toggle input {
-      width: 18px;
-      height: 18px;
-    }
+    .roundtrip-toggle input { width: 18px; height: 18px; }
 
-    .btn-add,
-    .btn-add-amount {
-      width: 100%;
-      min-height: 48px;
-      border-radius: 16px;
-      font-size: 14px;
-      font-weight: 850;
-      cursor: pointer;
-      letter-spacing: -0.01em;
+    .btn-add, .btn-add-amount {
+      width: 100%; min-height: 48px; border-radius: 16px;
+      font-size: 14px; font-weight: 850; cursor: pointer;
     }
-
     .btn-add {
-      margin-top: 14px;
-      border: none;
-      color: white;
+      margin-top: 14px; border: none; color: white;
       background: linear-gradient(135deg, #0b57d0 0%, #083b8a 100%);
-      box-shadow: 0 12px 24px rgba(11, 87, 208, 0.20);
+      box-shadow: 0 12px 24px rgba(11,87,208,0.20);
     }
-
     .btn-add-amount {
-      margin-top: 12px;
-      border: 1.5px dashed #bfd0ee;
-      background: #f8fbff;
-      color: var(--ana-blue);
+      margin-top: 12px; border: 1.5px dashed #bfd0ee;
+      background: #f8fbff; color: var(--ana-blue);
     }
+    .empty-msg { color: #98a2b3; text-align: center; padding: 22px 0; font-size: 14px; font-weight: 650; }
 
-    .empty-msg {
-      color: #98a2b3;
-      text-align: center;
-      padding: 22px 0;
-      font-size: 14px;
-      font-weight: 650;
-    }
-
-    /* ===== Amounts ===== */
-    .amount-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .amount-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px;
-      align-items: end;
-    }
-
-    .amount-wrap {
-      position: relative;
-    }
-
-    .amount-wrap input {
-      padding-right: 44px;
-    }
-
-    .yen {
-      position: absolute;
-      right: 13px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #8b95a7;
-      font-size: 13px;
-      font-weight: 800;
-      pointer-events: none;
-    }
+    .amount-list { display: grid; gap: 10px; }
+    .amount-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end; }
+    .amount-wrap { position: relative; }
+    .amount-wrap input { padding-right: 44px; }
+    .yen { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: #8b95a7; font-size: 13px; font-weight: 800; pointer-events: none; }
 
     .amount-total-box {
-      margin-top: 14px;
-      padding: 14px;
-      border-radius: 18px;
+      margin-top: 14px; padding: 14px; border-radius: 18px;
       background: linear-gradient(180deg, #fbfdff 0%, #f5f9ff 100%);
-      border: 1px solid #e1eaf7;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+      border: 1px solid #e1eaf7; display: flex; align-items: center;
+      justify-content: space-between; gap: 12px;
     }
+    .amount-total-label { font-size: 12px; font-weight: 800; color: var(--text-sub); }
+    .amount-total-value { font-size: 24px; font-weight: 900; color: #16315f; letter-spacing: -0.02em; }
 
-    .amount-total-label {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text-sub);
-    }
-
-    .amount-total-value {
-      font-size: 24px;
-      font-weight: 900;
-      color: #16315f;
-      letter-spacing: -0.02em;
-    }
-
-    /* ===== Results ===== */
-    .results {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
+    .results { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 14px; }
     .result-box {
-      border-radius: 18px;
-      padding: 15px 12px;
-      text-align: center;
+      border-radius: 18px; padding: 15px 12px; text-align: center;
       background: linear-gradient(180deg, #fbfdff 0%, #f6f9ff 100%);
       border: 1px solid #e3ebfb;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.85);
     }
-
     .result-box.hl {
       background: linear-gradient(135deg, #0a4fbf 0%, #083b8a 100%);
-      border-color: transparent;
-      box-shadow: 0 14px 28px rgba(11, 87, 208, 0.20);
+      border-color: transparent; box-shadow: 0 14px 28px rgba(11,87,208,0.20);
     }
+    .r-label { font-size: 11px; color: #7d8797; margin-bottom: 8px; font-weight: 850; letter-spacing: .5px; text-transform: uppercase; }
+    .result-box.hl .r-label { color: rgba(255,255,255,0.70); }
+    .r-val { font-size: 26px; font-weight: 900; color: #16315f; line-height: 1; letter-spacing: -0.03em; }
+    .result-box.hl .r-val { color: white; }
+    .r-unit { font-size: 11px; color: #98a2b3; margin-top: 6px; font-weight: 750; }
+    .result-box.hl .r-unit { color: rgba(255,255,255,0.60); }
 
-    .r-label {
-      font-size: 11px;
-      color: #7d8797;
-      margin-bottom: 8px;
-      font-weight: 850;
-      letter-spacing: .5px;
-      text-transform: uppercase;
-    }
-
-    .result-box.hl .r-label {
-      color: rgba(255,255,255,0.70);
-    }
-
-    .r-val {
-      font-size: 26px;
-      font-weight: 900;
-      color: #16315f;
-      line-height: 1;
-      letter-spacing: -0.03em;
-    }
-
-    .result-box.hl .r-val {
-      color: white;
-    }
-
-    .r-unit {
-      font-size: 11px;
-      color: #98a2b3;
-      margin-top: 6px;
-      font-weight: 750;
-    }
-
-    .result-box.hl .r-unit {
-      color: rgba(255,255,255,0.60);
-    }
-
-    /* ===== Sticky bottom summary ===== */
     .bottom-summary {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 40;
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
       padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
-      background:
-        linear-gradient(180deg, rgba(243,246,251,0) 0%, rgba(243,246,251,0.88) 18%, rgba(243,246,251,1) 100%);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(243,246,251,0) 0%, rgba(243,246,251,0.88) 18%, rgba(243,246,251,1) 100%);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     }
-
     .bottom-summary-inner {
-      max-width: 980px;
-      margin: 0 auto;
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(255,255,255,0.88);
-      border-radius: 22px;
-      box-shadow: var(--shadow-lg);
-      padding: 10px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      max-width: 980px; margin: 0 auto; background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.88); border-radius: 22px;
+      box-shadow: var(--shadow-lg); padding: 10px;
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
     }
-
     .bottom-item {
+      text-align: center; background: linear-gradient(180deg, #fbfdff 0%, #f5f9ff 100%);
+      border-radius: 16px; padding: 10px 6px; border: 1px solid #e7eef9;
+    }
+    .bottom-item.hl { background: linear-gradient(135deg, #0a4fbf 0%, #083b8a 100%); border-color: transparent; }
+    .bottom-k { font-size: 10px; font-weight: 850; color: #7d8797; letter-spacing: .4px; text-transform: uppercase; margin-bottom: 6px; }
+    .bottom-item.hl .bottom-k { color: rgba(255,255,255,0.66); }
+    .bottom-v { font-size: 18px; font-weight: 900; color: #16315f; line-height: 1.1; letter-spacing: -0.02em; }
+    .bottom-item.hl .bottom-v { color: white; }
+    .bottom-u { font-size: 10px; color: #98a2b3; margin-top: 4px; font-weight: 750; }
+    .bottom-item.hl .bottom-u { color: rgba(255,255,255,0.58); }
+
+    .amount-total-value, .r-val, .bottom-v, .formula-value { font-variant-numeric: tabular-nums; }
+
+    .intl-note {
+      font-size: 10px; color: #a06040; background: #fff7f0;
+      border: 1px solid #ffd8b8; border-radius: 10px;
+      padding: 7px 10px; margin-top: 8px; line-height: 1.5;
+    }
+    .bonus-section { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .bonus-total {
+      margin-top: 10px; padding: 8px 12px; border-radius: 12px;
+      background: linear-gradient(135deg, #eaf3ff 0%, #e0edff 100%);
+      border: 1px solid #c8dcf8; font-size: 12px; font-weight: 800; color: #1a3d7a;
       text-align: center;
-      background: linear-gradient(180deg, #fbfdff 0%, #f5f9ff 100%);
-      border-radius: 16px;
-      padding: 10px 6px;
-      border: 1px solid #e7eef9;
     }
+    .results-miles { margin-top: 10px; }
+    .seg-miles-row { margin-top: 8px; padding: 6px 10px; border-radius: 12px;
+      background: #f0fff8; border: 1px solid #b8e8d0;
+      font-size: 11px; font-weight: 750; color: #1a6b44;
+      display: flex; justify-content: space-between; }
+    .bottom-summary-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-    .bottom-item.hl {
-      background: linear-gradient(135deg, #0a4fbf 0%, #083b8a 100%);
-      border-color: transparent;
-    }
-
-    .bottom-k {
-      font-size: 10px;
-      font-weight: 850;
-      color: #7d8797;
-      letter-spacing: .4px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .bottom-item.hl .bottom-k {
-      color: rgba(255,255,255,0.66);
-    }
-
-    .bottom-v {
-      font-size: 18px;
-      font-weight: 900;
-      color: #16315f;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    .bottom-item.hl .bottom-v {
-      color: white;
-    }
-
-    .bottom-u {
-      font-size: 10px;
-      color: #98a2b3;
-      margin-top: 4px;
-      font-weight: 750;
-    }
-
-    .bottom-item.hl .bottom-u {
-      color: rgba(255,255,255,0.58);
-    }
-
-    .amount-total-value,
-    .r-val,
-    .bottom-v,
-    .formula-value {
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* ===== Mobile (タッチデバイス) ===== */
     @media (hover: none) and (pointer: coarse) {
-      select,
-      input[type="number"] {
-        transition: border-color .14s ease, background .14s ease;
-      }
-
-      select:focus,
-      input[type="number"]:focus {
-        box-shadow: none;
-      }
+      select, input[type="number"] { transition: border-color .14s ease, background .14s ease; }
+      select:focus, input[type="number"]:focus { box-shadow: none; }
     }
-
-    /* ===== Desktop ===== */
     @media (min-width: 769px) {
-      body {
-        padding-bottom: 28px;
-      }
-
-      .tab-bar {
-        top: calc(68px + env(safe-area-inset-top));
-        padding-top: 12px;
-      }
-
-      .content {
-        padding: 18px 18px 28px;
-      }
-
-      .card {
-        padding: 20px 18px;
-      }
-
-      .field-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .results {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .bottom-summary {
-        display: none;
-      }
+      body { padding-bottom: 28px; }
+      .tab-bar { top: calc(68px + env(safe-area-inset-top)); padding-top: 12px; }
+      .content { padding: 18px 18px 28px; }
+      .card { padding: 20px 18px; }
+      .field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .results { grid-template-columns: repeat(3, 1fr); }
+      .bottom-summary { display: none; }
+      .bottom-summary-inner { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
   </style>
 </head>
@@ -737,7 +326,7 @@
     <div class="logo">ANA</div>
     <div class="title-wrap">
       <h1>PP単価計算ツール</h1>
-      <p>国内線 / スマホ最適化UI</p>
+      <p>国内線 / 国際線 対応</p>
     </div>
   </div>
 </header>
@@ -745,7 +334,7 @@
 <div class="tab-bar">
   <div class="tab-row">
     <div id="tabButtons" class="tab-scroll"></div>
-    <button class="btn-new-tab" onclick="newTab()" title="新しいタブ" aria-label="新しいタブを追加">＋</button>
+    <button class="btn-new-tab" onclick="newTab()" title="新しいタブ">＋</button>
   </div>
 </div>
 
@@ -757,6 +346,11 @@
       <div class="bottom-k">合計 PP</div>
       <div class="bottom-v" id="b-totalPP">-</div>
       <div class="bottom-u">ポイント</div>
+    </div>
+    <div class="bottom-item">
+      <div class="bottom-k">合計マイル</div>
+      <div class="bottom-v" id="b-totalMiles">-</div>
+      <div class="bottom-u">マイル</div>
     </div>
     <div class="bottom-item">
       <div class="bottom-k">旅行総額</div>
@@ -772,7 +366,161 @@
 </div>
 
 <script>
-// ── Route data (raw names) ─────────────────────────────────────────────────────
+// ─── International route data ─────────────────────────────────────────────────
+const INT_ROUTES = {
+  '東京': [
+    // その他（欧米など）: 1.0x
+    { dest: 'シアトル',        miles: 4775, mult: 1.0 },
+    { dest: 'サンフランシスコ', miles: 5130, mult: 1.0 },
+    { dest: 'サンノゼ',        miles: 5162, mult: 1.0 },
+    { dest: 'ロサンゼルス',    miles: 5458, mult: 1.0 },
+    { dest: 'ヒューストン',    miles: 6658, mult: 1.0 },
+    { dest: 'シカゴ',          miles: 6283, mult: 1.0 },
+    { dest: 'ニューヨーク',    miles: 6739, mult: 1.0 },
+    { dest: 'ワシントンD.C.',  miles: 6762, mult: 1.0 },
+    { dest: 'ホノルル',        miles: 3831, mult: 1.0 },
+    { dest: 'バンクーバー',    miles: 4681, mult: 1.0 },
+    { dest: 'メキシコシティ',  miles: 7003, mult: 1.0 },
+    { dest: 'ロンドン',         miles: 6220, mult: 1.0 },
+    { dest: 'フランクフルト',   miles: 5929, mult: 1.0 },
+    { dest: 'ミュンヘン',       miles: 5866, mult: 1.0 },
+    { dest: 'デュッセルドルフ', miles: 5959, mult: 1.0 },
+    { dest: 'パリ',             miles: 6207, mult: 1.0 },
+    { dest: 'ブリュッセル',     miles: 6067, mult: 1.0 },
+    { dest: 'ウィーン',         miles: 5699, mult: 1.0 },
+    { dest: 'イスタンブール',   miles: 5748, mult: 1.0 },
+    { dest: 'モスクワ',         miles: 4664, mult: 1.0 },
+    { dest: 'ミラノ',           miles: 6078, mult: 1.0 },
+    { dest: 'ストックホルム',   miles: 5439, mult: 1.0 },
+    // アジア・オセアニア/ウラジオストク: 1.5x
+    { dest: 'ウラジオストク',   miles:  676, mult: 1.5 },
+    { dest: '上海',             miles: 1111, mult: 1.5 },
+    { dest: '北京',             miles: 1313, mult: 1.5 },
+    { dest: '香港',             miles: 1823, mult: 1.5 },
+    { dest: '広州',             miles: 1822, mult: 1.5 },
+    { dest: '大連',             miles: 1042, mult: 1.5 },
+    { dest: '青島',             miles: 1117, mult: 1.5 },
+    { dest: '厦門',             miles: 1520, mult: 1.5 },
+    { dest: '杭州',             miles: 1206, mult: 1.5 },
+    { dest: '瀋陽',             miles:  987, mult: 1.5 },
+    { dest: '成都',             miles: 2100, mult: 1.5 },
+    { dest: '武漢',             miles: 1530, mult: 1.5 },
+    { dest: '深セン',           miles: 1813, mult: 1.5 },
+    { dest: 'ソウル（金浦/仁川）', miles: 758, mult: 1.5 },
+    { dest: '台北',             miles: 1330, mult: 1.5 },
+    { dest: 'シンガポール',     miles: 3312, mult: 1.5 },
+    { dest: 'ジャカルタ',       miles: 3612, mult: 1.5 },
+    { dest: 'バンコク',         miles: 2869, mult: 1.5 },
+    { dest: 'ホーチミンシティ', miles: 2706, mult: 1.5 },
+    { dest: 'ハノイ',           miles: 2294, mult: 1.5 },
+    { dest: 'マニラ',           miles: 1880, mult: 1.5 },
+    { dest: 'クアラルンプール', miles: 3345, mult: 1.5 },
+    { dest: 'ヤンゴン',         miles: 2984, mult: 1.5 },
+    { dest: 'デリー',           miles: 3656, mult: 1.5 },
+    { dest: 'ムンバイ',         miles: 4201, mult: 1.5 },
+    { dest: 'プノンペン',       miles: 2759, mult: 1.5 },
+    { dest: 'チェンナイ',       miles: 4017, mult: 1.5 },
+    { dest: 'シドニー', miles: 4863, mult: 1.5 },
+    { dest: 'パース',   miles: 4926, mult: 1.5 },
+  ],
+  '大阪（関西）': [
+    { dest: '上海', miles:  831, mult: 1.5 },
+    { dest: '北京', miles: 1092, mult: 1.5 },
+    { dest: '香港', miles: 1548, mult: 1.5 },
+    { dest: '大連', miles:  818, mult: 1.5 },
+    { dest: '青島', miles:  864, mult: 1.5 },
+    { dest: '杭州', miles:  926, mult: 1.5 },
+  ],
+  '名古屋（中部）': [
+    { dest: '上海', miles:  919, mult: 1.5 },
+    { dest: '香港', miles: 1632, mult: 1.5 },
+  ],
+};
+
+const INT_ORIGINS = ['東京', '大阪（関西）', '名古屋（中部）'];
+
+function getIntlRoutes(origin) { return INT_ROUTES[origin] || []; }
+function getIntlRoute(origin, dest) { return getIntlRoutes(origin).find(r => r.dest === dest) || null; }
+
+// International booking class accumulation rates
+const INT_CLASS_RATE = {
+  'F':150,'A':150,                       // First
+  'J':150,'C':125,'D':125,'Z':125,'P':70, // Business
+  'G':100,'E':100,'N':70,                // Premium Economy
+  'Y':100,'B':100,'M':100,               // Economy
+  'U':70,'H':70,'Q':70,                  // Economy discounted
+  'V':50,'W':50,'S':50,'T':50,           // Economy deep
+  'L':30,'K':30,                         // Economy cheapest
+};
+
+// International boarding points (ANA group operated, 2026/5/19以降)
+// 積算率100%以上 → 400pt、未満 → 0pt
+const INT_BOARD_PT = {
+  'F':400,'A':400,                          // 150% → 400
+  'J':400,'C':400,'D':400,'Z':400,'P':0,    // J/C/D/Z=125-150%→400; P=70%→0
+  'G':400,'E':400,'N':0,                    // G/E=100%→400; N=70%→0
+  'Y':400,'B':400,'M':400,                  // 100% → 400
+  'U':0,'H':0,'Q':0,'V':0,'W':0,'S':0,'T':0,'L':0,'K':0, // <100% → 0
+};
+
+// International ticket domestic leg rates
+const INTL_DOM_RATE = {
+  'F':150,'A':150,
+  'Y':100,'B':100,'M':100,
+  'U':70,'H':70,'Q':70,
+  'V':50,'W':50,'S':50,
+  'L':30,'K':30,
+};
+
+// International ticket domestic leg boarding points (2026/5/19以降)
+// F/A(ファーストクラス)→400pt、Y/B/M(エコノミー正規)→400pt、その他→0pt
+const INTL_DOM_BOARD_PT = {
+  'F':400,'A':400,
+  'Y':400,'B':400,'M':400,
+  'U':0,'H':0,'Q':0,'V':0,'W':0,'S':0,'L':0,'K':0,
+};
+
+// Grouped booking class options for <select>
+const INT_CLASSES_HTML = `
+  <optgroup label="ファーストクラス">
+    <option value="F">F（150%）</option><option value="A">A（150%）</option>
+  </optgroup>
+  <optgroup label="ビジネスクラス">
+    <option value="J">J（150%）</option><option value="C">C（125%）</option>
+    <option value="D">D（125%）</option><option value="Z">Z（125%）</option>
+    <option value="P">P（70%）</option>
+  </optgroup>
+  <optgroup label="プレミアムエコノミー">
+    <option value="G">G（100%）</option><option value="E">E（100%）</option>
+    <option value="N">N（70%）</option>
+  </optgroup>
+  <optgroup label="エコノミークラス">
+    <option value="Y">Y（100%）</option><option value="B">B（100%）</option>
+    <option value="M">M（100%）</option><option value="U">U（70%）</option>
+    <option value="H">H（70%）</option><option value="Q">Q（70%）</option>
+    <option value="V">V（50%）</option><option value="W">W（50%）</option>
+    <option value="S">S（50%）</option><option value="T">T（50%）</option>
+    <option value="L">L（30%）</option><option value="K">K（30%）</option>
+  </optgroup>`;
+
+const IDOM_CLASSES_HTML = `
+  <optgroup label="ファーストクラス">
+    <option value="F">F（150%）</option><option value="A">A（150%）</option>
+  </optgroup>
+  <optgroup label="エコノミークラス">
+    <option value="Y">Y（100%）</option><option value="B">B（100%）</option>
+    <option value="M">M（100%）</option><option value="U">U（70%）</option>
+    <option value="H">H（70%）</option><option value="Q">Q（70%）</option>
+    <option value="V">V（50%）</option><option value="W">W（50%）</option>
+    <option value="S">S（50%）</option>
+    <option value="L">L（30%）</option><option value="K">K（30%）</option>
+  </optgroup>`;
+
+function injectSelectedIntl(html, code) {
+  return html.replace(`value="${code}"`, `value="${code}" selected`);
+}
+
+// ─── Domestic route data ──────────────────────────────────────────────────────
 const RAW = [
   ["東京","札幌",510],["東京","稚内",679],["東京","女満別",609],["東京","旭川",576],
   ["東京","根室中標津",605],["東京","オホーツク紋別",623],["東京","釧路",555],
@@ -818,555 +566,625 @@ const RAW = [
   ["宮古","石垣",72],["宮古","名古屋",979],["宮古","福岡",683],
 ];
 
-// ── Airport name mapping ───────────────────────────────────────────────────────
 const NAME_MAP = {
-  "東京": "東京(羽田)",
-  "大阪": "大阪(伊丹)",
-  "札幌": "新千歳",
-  "名古屋": "名古屋(中部)",
-  "沖縄": "那覇",
-  "宮古": "宮古島",
+  "東京":"東京(羽田)","大阪":"大阪(伊丹)","札幌":"新千歳",
+  "名古屋":"名古屋(中部)","沖縄":"那覇","宮古":"宮古島",
 };
 const rn = n => NAME_MAP[n] || n;
+const routeData = RAW.map(([a,b,m]) => [rn(a), rn(b), m]);
 
-const routeData = RAW.map(([a, b, m]) => [rn(a), rn(b), m]);
-
-// ── Priority sort ──────────────────────────────────────────────────────────────
-const PRIORITY = [
-  "東京(羽田)", "東京(成田)", "大阪(伊丹)", "大阪(関西)", "大阪(神戸)",
-  "新千歳", "名古屋(中部)", "福岡", "那覇", "石垣", "宮古島",
-];
-
+const PRIORITY = ["東京(羽田)","東京(成田)","大阪(伊丹)","大阪(関西)","大阪(神戸)",
+  "新千歳","名古屋(中部)","福岡","那覇","石垣","宮古島"];
 function sortAp(arr) {
-  return [...arr].sort((a, b) => {
-    const ai = PRIORITY.indexOf(a), bi = PRIORITY.indexOf(b);
-    if (ai >= 0 && bi >= 0) return ai - bi;
-    if (ai >= 0) return -1;
-    if (bi >= 0) return 1;
-    return a.localeCompare(b, "ja");
+  return [...arr].sort((a,b) => {
+    const ai=PRIORITY.indexOf(a), bi=PRIORITY.indexOf(b);
+    if (ai>=0&&bi>=0) return ai-bi;
+    if (ai>=0) return -1; if (bi>=0) return 1;
+    return a.localeCompare(b,"ja");
   });
 }
-
-const ALL_AIRPORTS = sortAp([...new Set(routeData.flatMap(([a, b]) => [a, b]))]);
+const ALL_AIRPORTS = sortAp([...new Set(routeData.flatMap(([a,b])=>[a,b]))]);
 
 function getMiles(a, b) {
-  for (const [x, y, m] of routeData) {
-    if ((x === a && y === b) || (x === b && y === a)) return m;
+  for (const [x,y,m] of routeData) {
+    if ((x===a&&y===b)||(x===b&&y===a)) return m;
   }
   return null;
 }
-
 function getDests(ap) {
-  const d = [];
-  for (const [a, b] of routeData) {
-    if (a === ap) d.push(b);
-    else if (b === ap) d.push(a);
+  const d=[];
+  for (const [a,b] of routeData) {
+    if (a===ap) d.push(b); else if (b===ap) d.push(a);
   }
   return sortAp(d);
 }
 
-// ── Fare / calculation ────────────────────────────────────────────────────────
+// ─── Domestic fare/rate ────────────────────────────────────────────────────────
 const FARES = [
-  "シンプル", "スタンダード",
-  "フレックス", "Biz", "ANAカード優待割引", "島民割引",
-  "フレックス（国際線接続専用）", "株主優待割引",
-  "セール", "個人包括旅行運賃（APIT）",
-  "ユース", "シニア", "包括団体旅行運賃（IITA）", "包括旅行割引運賃（ITE）",
+  "シンプル","スタンダード","フレックス","Biz","ANAカード優待割引","島民割引",
+  "フレックス（国際線接続専用）","株主優待割引","セール",
+  "個人包括旅行運賃（APIT）","ユース","シニア","包括団体旅行運賃（IITA）","包括旅行割引運賃（ITE）",
 ];
-
-function getRate(fare, seat) {
-  if (seat === "ファーストクラス") {
+function getDomRate(fare, seat) {
+  if (seat==="ファーストクラス") {
     if (["フレックス","Biz","ANAカード優待割引","フレックス（国際線接続専用）"].includes(fare)) return 150;
     if (["スタンダード","株主優待割引"].includes(fare)) return 130;
-    if (fare === "シンプル") return 120;
-    if (fare === "セール") return 100;
+    if (fare==="シンプル") return 120;
+    if (fare==="セール") return 100;
     return null;
   }
   if (["フレックス","Biz","ANAカード優待割引","島民割引","フレックス（国際線接続専用）"].includes(fare)) return 100;
   if (["株主優待割引","スタンダード"].includes(fare)) return 80;
-  if (fare === "シンプル") return 70;
+  if (fare==="シンプル") return 70;
   if (["セール","個人包括旅行運賃（APIT）","ユース","シニア","包括団体旅行運賃（IITA）"].includes(fare)) return 50;
-  if (fare === "包括旅行割引運賃（ITE）") return 30;
+  if (fare==="包括旅行割引運賃（ITE）") return 30;
   return null;
 }
-
-function getBoardPt(fare, seat) {
-  if (seat === "ファーストクラス") {
+function getDomBoardPt(fare, seat) {
+  if (seat==="ファーストクラス") {
     return ["フレックス","Biz","ANAカード優待割引","株主優待割引","スタンダード","シンプル"].includes(fare) ? 400 : 0;
   }
   if (["フレックス","Biz","ANAカード優待割引","株主優待割引"].includes(fare)) return 400;
-  if (fare === "スタンダード") return 200;
-  if (fare === "シンプル") return 100;
+  if (fare==="スタンダード") return 200;
+  if (fare==="シンプル") return 100;
   return 0;
 }
 
-const ROUTE_MULT = 2.0;
+// ─── State ────────────────────────────────────────────────────────────────────
+const ST = { tabs:[], activeId:null, nextId:1, nextSegId:1 };
 
-function calcPP(seg) {
-  if (!seg.ap1 || !seg.ap2) return null;
-  const m = getMiles(seg.ap1, seg.ap2);
-  if (m === null) return null;
-  const r = getRate(seg.fare, seg.seat);
-  if (r === null) return null;
-  return Math.round(m * r / 100 * ROUTE_MULT) + getBoardPt(seg.fare, seg.seat);
+function mkSeg(params={}) {
+  const {
+    type='domestic', ap1='', ap2='',
+    seat='エコノミークラス', fare='スタンダード',
+    intlOrigin='東京', intlDest='',
+    bookClass='Y', roundtrip=false
+  } = params;
+  return { id:ST.nextSegId++, type, ap1, ap2, seat, fare, intlOrigin, intlDest, bookClass, roundtrip };
 }
 
-// ── State ─────────────────────────────────────────────────────────────────────
-const ST = { tabs: [], activeId: null, nextId: 1, nextSegId: 1 };
-
-function mkSeg(ap1 = "", ap2 = "", seat = "エコノミークラス", fare = "スタンダード", roundtrip = false) {
-  return { id: ST.nextSegId++, ap1, ap2, seat, fare, roundtrip };
-}
-
-function mkTab(name, segDefs = [], amountOrAmounts = [""]) {
+function mkTab(name, segDefs=[], amounts=[""]) {
   const id = ST.nextId++;
-  const segments = segDefs.map(s => mkSeg(
-    s.ap1,
-    s.ap2,
-    s.seat ?? "エコノミークラス",
-    s.fare ?? "スタンダード",
-    s.roundtrip ?? false,
-  ));
-  const amounts = Array.isArray(amountOrAmounts)
-    ? (amountOrAmounts.length ? amountOrAmounts : [""])
-    : [amountOrAmounts];
-  return { id, name, segments, amounts };
+  const segments = segDefs.map(s => mkSeg(s));
+  const amts = Array.isArray(amounts) ? (amounts.length ? amounts : [""]) : [amounts];
+  return { id, name, segments, amounts: amts, statusBonus:0, cardBonus:0 };
 }
 
-function getTab(id) {
-  return ST.tabs.find(t => t.id === (id ?? ST.activeId));
-}
+function getTab(id) { return ST.tabs.find(t => t.id===(id ?? ST.activeId)); }
 
 function refreshTabName(tab) {
-  const filled = tab.segments.filter(s => s.ap1 && s.ap2);
-  if (!filled.length) {
-    tab.name = "新規タブ";
-    return;
-  }
-
-  const names = [];
-  filled.forEach((seg, i) => {
-    if (i === 0) {
-      names.push(seg.ap1, seg.ap2);
+  const segs = tab.segments.filter(s =>
+    s.type==='international' ? s.intlDest : (s.ap1 && s.ap2)
+  );
+  if (!segs.length) { tab.name="新規タブ"; return; }
+  const stops=[];
+  segs.forEach((seg,i) => {
+    if (seg.type==='international') {
+      if (i===0) stops.push(seg.intlDest);
+      stops.push(seg.intlOrigin.replace('（関西）','').replace('（中部）',''));
     } else {
-      names.push(seg.ap2);
+      if (i===0) stops.push(seg.ap1);
+      stops.push(seg.ap2);
     }
   });
-
-  tab.name = names.join("→");
+  tab.name = stops.join("→");
 }
 
-// ── Default tabs ──────────────────────────────────────────────────────────────
+// ─── Default tabs ─────────────────────────────────────────────────────────────
 function initDefaults() {
   ST.tabs = [
+    mkTab("金浦→羽田→石垣→名古屋", [
+      { type:'international',  intlOrigin:'東京', intlDest:'ソウル（金浦/仁川）', bookClass:'Y' },
+      { type:'intl_domestic', ap1:'東京(羽田)', ap2:'石垣',       bookClass:'Y' },
+      { type:'intl_domestic', ap1:'石垣',       ap2:'名古屋(中部)', bookClass:'Y' },
+    ], [""]),
     mkTab("羽田→那覇", [
-      { ap1: "東京(羽田)", ap2: "那覇" },
-    ]),
-    mkTab("羽田→那覇→石垣", [
-      { ap1: "東京(羽田)", ap2: "那覇" },
-      { ap1: "那覇", ap2: "石垣" },
+      { type:'domestic', ap1:"東京(羽田)", ap2:"那覇", seat:"エコノミークラス", fare:"スタンダード" },
     ]),
     mkTab("羽田→石垣", [
-      { ap1: "東京(羽田)", ap2: "石垣" },
+      { type:'domestic', ap1:"東京(羽田)", ap2:"石垣", seat:"エコノミークラス", fare:"スタンダード" },
     ]),
     mkTab("羽田→新千歳", [
-      { ap1: "東京(羽田)", ap2: "新千歳" },
+      { type:'domestic', ap1:"東京(羽田)", ap2:"新千歳", seat:"エコノミークラス", fare:"スタンダード" },
     ]),
   ];
   ST.activeId = ST.tabs[0].id;
 }
 
-// ── Tab operations ────────────────────────────────────────────────────────────
-function switchTab(id) {
-  ST.activeId = id;
-  renderTabs();
-  renderContent();
-}
-
+// ─── Tab operations ───────────────────────────────────────────────────────────
+function switchTab(id) { ST.activeId=id; renderTabs(); renderContent(); }
 function newTab() {
-  const t = mkTab("新規タブ", [{ ap1: "", ap2: "", seat: "エコノミークラス", fare: "スタンダード" }]);
-  ST.tabs.push(t);
-  ST.activeId = t.id;
-  renderTabs();
-  renderContent();
+  const t = mkTab("新規タブ",[{type:'domestic',ap1:'',ap2:'',seat:'エコノミークラス',fare:'スタンダード'}]);
+  ST.tabs.push(t); ST.activeId=t.id; renderTabs(); renderContent();
 }
-
 function deleteTab(id) {
-  const idx = ST.tabs.findIndex(t => t.id === id);
-  if (idx < 0) return;
-  ST.tabs.splice(idx, 1);
-  if (ST.activeId === id) {
-    ST.activeId = ST.tabs.length ? ST.tabs[Math.max(0, idx - 1)].id : null;
-  }
-  renderTabs();
-  renderContent();
+  const idx = ST.tabs.findIndex(t=>t.id===id);
+  if (idx<0) return;
+  ST.tabs.splice(idx,1);
+  if (ST.activeId===id) ST.activeId = ST.tabs.length ? ST.tabs[Math.max(0,idx-1)].id : null;
+  renderTabs(); renderContent();
 }
-
 function addSegment() {
-  const tab = getTab();
-  tab.segments.push(mkSeg());
-  refreshTabName(tab);
-  renderTabs();
-  renderContent();
+  const tab=getTab(); tab.segments.push(mkSeg({}));
+  refreshTabName(tab); renderTabs(); renderContent();
 }
-
 function removeSegment(segId) {
-  const tab = getTab();
-  tab.segments = tab.segments.filter(s => s.id !== segId);
-  if (!tab.segments.length) {
-    tab.segments.push(mkSeg());
-  }
-  refreshTabName(tab);
-  renderTabs();
-  renderContent();
+  const tab=getTab();
+  tab.segments = tab.segments.filter(s=>s.id!==segId);
+  if (!tab.segments.length) tab.segments.push(mkSeg({}));
+  refreshTabName(tab); renderTabs(); renderContent();
 }
-
 function updateSeg(segId, field, value) {
-  const tab = getTab();
-  const seg = tab.segments.find(s => s.id === segId);
+  const tab=getTab();
+  const seg=tab.segments.find(s=>s.id===segId);
   if (!seg) return;
-
-  seg[field] = value;
-
-  if (field === "ap1") {
-    const dests = getDests(value);
-    if (!dests.includes(seg.ap2)) seg.ap2 = "";
+  if (field==='type') {
+    seg.type=value;
+    if (value==='domestic' || value==='intl_domestic') {
+      seg.intlDest='';
+    } else {
+      seg.ap1=''; seg.ap2='';
+    }
+  } else if (field==='ap1' && seg.type!=='international') {
+    seg.ap1=value;
+    if (!getDests(value).includes(seg.ap2)) seg.ap2='';
+  } else if (field==='intlOrigin') {
+    seg.intlOrigin=value;
+    const routes=getIntlRoutes(value);
+    if (!routes.find(r=>r.dest===seg.intlDest)) seg.intlDest='';
+  } else {
+    seg[field]=value;
   }
-
-  refreshTabName(tab);
-  renderTabs();
-  renderContent();
+  refreshTabName(tab); renderTabs(); renderContent();
 }
-
-function onAmountInput(idx, value) {
-  const tab = getTab();
-  if (!tab.amounts) tab.amounts = [""];
-  tab.amounts[idx] = value;
-  updateResult();
+function onAmountInput(idx, val) {
+  const tab=getTab();
+  if (!tab.amounts) tab.amounts=[""];
+  tab.amounts[idx]=val; updateResult();
 }
-
 function addAmount() {
-  const tab = getTab();
-  if (!tab.amounts) tab.amounts = [""];
-  tab.amounts.push("");
-  renderContent();
+  const tab=getTab();
+  if (!tab.amounts) tab.amounts=[""];
+  tab.amounts.push(""); renderContent();
 }
-
 function removeAmount(idx) {
-  const tab = getTab();
-  if (!tab.amounts) return;
-  tab.amounts.splice(idx, 1);
+  const tab=getTab(); if (!tab.amounts) return;
+  tab.amounts.splice(idx,1);
   if (!tab.amounts.length) tab.amounts.push("");
   renderContent();
 }
 
-// ── Rendering ─────────────────────────────────────────────────────────────────
-function scrollFieldIntoView(el) {
-  if (!el || typeof window === "undefined") return;
-  const rect = el.getBoundingClientRect();
-  const vh = window.innerHeight || document.documentElement.clientHeight || 0;
-
-  // ヘッダー＋タブバー分のオフセット（おおよそ）
-  const offset = 140;
-
-  // すでに適切な位置なら何もしない
-  if (rect.top >= offset && rect.bottom <= vh) return;
-
-  const currentY = window.pageYOffset || document.documentElement.scrollTop || 0;
-  const targetY = currentY + rect.top - offset;
-
-  window.scrollTo({
-    top: Math.max(targetY, 0),
-    behavior: "smooth",
-  });
+// ─── Flight mile calculation ──────────────────────────────────────────────────
+// フライトマイル = 区間基本マイレージ × 積算率（ボーナス除く）
+function calcFlightMiles(seg) {
+  if (seg.type==='domestic') {
+    if (!seg.ap1||!seg.ap2) return null;
+    const m=getMiles(seg.ap1,seg.ap2); if (m===null) return null;
+    const r=getDomRate(seg.fare,seg.seat); if (r===null) return null;
+    return Math.round(m*r/100);
+  }
+  if (seg.type==='international') {
+    if (!seg.intlOrigin||!seg.intlDest) return null;
+    const route=getIntlRoute(seg.intlOrigin,seg.intlDest); if (!route) return null;
+    const r=INT_CLASS_RATE[seg.bookClass]; if (r===undefined) return null;
+    return Math.round(route.miles*r/100);
+  }
+  if (seg.type==='intl_domestic') {
+    if (!seg.ap1||!seg.ap2) return null;
+    const m=getMiles(seg.ap1,seg.ap2); if (m===null) return null;
+    const r=INTL_DOM_RATE[seg.bookClass]; if (r===undefined) return null;
+    return Math.round(m*r/100);
+  }
+  return null;
 }
 
-function attachFocusScrollHandlers() {
-  const root = document.getElementById("tabContent");
-  if (!root) return;
-
-  const fields = root.querySelectorAll(
-    ".segment-card select," +
-    ".segment-card input[type='number']," +
-    ".amount-wrap input[type='number']"
-  );
-
-  fields.forEach(el => {
-    el.addEventListener("focus", () => {
-      // iOS のキーボード表示との競合を少し避けるために遅延
-      setTimeout(() => {
-        scrollFieldIntoView(el.closest(".segment-card") || el.closest(".amount-row") || el);
-      }, 80);
-    }, { passive: true });
-  });
+function onBonusChange(field, val) {
+  const tab=getTab(); if (!tab) return;
+  tab[field]=val;
+  renderContent();
 }
+
+// ─── Flight bonus mile rate (Premium Member Service: フライトボーナスマイル) ─────
+// 参照: 貼付のANA案内にある積算率（%）
+const BONUS_OPTIONS = [
+  { id: 'none', label: '—（一般会員）', rate: 0 },
+  { id: 'bronze_y1', label: 'ブロンズ（1年目）+40%', rate: 40 },
+  { id: 'bronze_y2', label: 'ブロンズ（継続2年以上）+50%', rate: 50 },
+  { id: 'bronze_y1_gold', label: 'ブロンズ（1年目）＋ANAゴールド/カードプレミアム所持 +45%', rate: 45 },
+  { id: 'bronze_y2_gold', label: 'ブロンズ（継続2年以上）＋ANAゴールド/カードプレミアム所持 +55%', rate: 55 },
+
+  { id: 'platinum_y1', label: 'プラチナ（1年目）+90%', rate: 90 },
+  { id: 'platinum_y2', label: 'プラチナ（継続2年以上）+100%', rate: 100 },
+  { id: 'platinum_y1_gold', label: 'プラチナ（1年目）＋ANAゴールド/カードプレミアム所持 +95%', rate: 95 },
+  { id: 'platinum_y2_gold', label: 'プラチナ（継続2年以上）＋ANAゴールド/カードプレミアム所持 +105%', rate: 105 },
+
+  { id: 'diamond_y1', label: 'ダイヤモンド（1年目）+115%', rate: 115 },
+  { id: 'diamond_y2', label: 'ダイヤモンド（継続2年以上）+125%', rate: 125 },
+  { id: 'diamond_y1_gold', label: 'ダイヤモンド（1年目）＋ANAゴールド/カードプレミアム所持 +120%', rate: 120 },
+  { id: 'diamond_y2_gold', label: 'ダイヤモンド（継続2年以上）＋ANAゴールド/カードプレミアム所持 +130%', rate: 130 },
+
+  // スーパーフライヤーズ会員（ステイタス保有時は高い方のみ適用＝ここでは単独選択にする）
+  { id: 'sfc_standard', label: 'スーパーフライヤーズ会員（一般カード）+35%', rate: 35 },
+  { id: 'sfc_gold', label: 'スーパーフライヤーズ会員（ゴールドカード）+40%', rate: 40 },
+  { id: 'sfc_premium', label: 'スーパーフライヤーズ会員（カードプレミアム）+50%', rate: 50 },
+];
+
+function getBonusRate(optionId) {
+  const opt = BONUS_OPTIONS.find(o => o.id === optionId);
+  return opt ? opt.rate : 0;
+}
+
+// ─── PP calculation ───────────────────────────────────────────────────────────
+function calcPP(seg) {
+  if (seg.type==='domestic') {
+    if (!seg.ap1||!seg.ap2) return null;
+    const m=getMiles(seg.ap1,seg.ap2); if (m===null) return null;
+    const r=getDomRate(seg.fare,seg.seat); if (r===null) return null;
+    return Math.round(m*r/100*2.0) + getDomBoardPt(seg.fare,seg.seat);
+  }
+  if (seg.type==='international') {
+    if (!seg.intlOrigin||!seg.intlDest) return null;
+    const route=getIntlRoute(seg.intlOrigin,seg.intlDest); if (!route) return null;
+    const r=INT_CLASS_RATE[seg.bookClass]; if (r===undefined) return null;
+    const bp=INT_BOARD_PT[seg.bookClass]??0;
+    return Math.round(route.miles*r/100*route.mult) + bp;
+  }
+  if (seg.type==='intl_domestic') {
+    if (!seg.ap1||!seg.ap2) return null;
+    const m=getMiles(seg.ap1,seg.ap2); if (m===null) return null;
+    const r=INTL_DOM_RATE[seg.bookClass]; if (r===undefined) return null;
+    const bp=INTL_DOM_BOARD_PT[seg.bookClass]??0; // 2026/5/19以降: F/A/Y/B/M→400pt
+    return Math.round(m*r/100*2.0)+bp;
+  }
+  return null;
+}
+
+// ─── Rendering helpers ────────────────────────────────────────────────────────
 function h(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function apOpts(list, sel) {
+  return list.map(a=>`<option value="${h(a)}"${a===sel?" selected":""}>${h(a)}</option>`).join("");
 }
 
 function renderTabs() {
-  document.getElementById("tabButtons").innerHTML = ST.tabs.map(tab => `
-    <button class="tab-btn${tab.id === ST.activeId ? " active" : ""}" onclick="switchTab(${tab.id})">
+  document.getElementById("tabButtons").innerHTML = ST.tabs.map(tab=>`
+    <button class="tab-btn${tab.id===ST.activeId?" active":""}" onclick="switchTab(${tab.id})">
       ${h(tab.name)}
-      ${ST.tabs.length > 1 ? `<span class="tab-close" onclick="event.stopPropagation();deleteTab(${tab.id})">×</span>` : ""}
-    </button>
-  `).join("");
+      ${ST.tabs.length>1?`<span class="tab-close" onclick="event.stopPropagation();deleteTab(${tab.id})">×</span>`:""}
+    </button>`).join("");
 }
 
-function renderSegCard(seg, index, totalSegs) {
-  const dests = seg.ap1 ? getDests(seg.ap1) : ALL_AIRPORTS;
-  const miles = (seg.ap1 && seg.ap2) ? getMiles(seg.ap1, seg.ap2) : null;
-  const rate = miles !== null ? getRate(seg.fare, seg.seat) : null;
-  const board = rate !== null ? getBoardPt(seg.fare, seg.seat) : null;
-  const basePP = rate !== null && miles !== null
-    ? Math.round(miles * rate / 100 * ROUTE_MULT) + board
-    : null;
-  const pp = basePP !== null
-    ? basePP * (seg.roundtrip ? 2 : 1)
-    : null;
+function renderSegCard(seg, index, total) {
+  const type = seg.type;
+  const cardClass = type==='international'?'intl':(type==='intl_domestic'?'intl-dom':'');
+  const labelClass = cardClass||'domestic';
+  const labelText = type==='international'?'国際線':(type==='intl_domestic'?'国際線発券/国内区間':'国内線');
 
-  const apOpts = (list, sel) =>
-    list.map(a => `<option value="${h(a)}"${a === sel ? " selected" : ""}>${h(a)}</option>`).join("");
+  // Calculate values for formula display
+  let miles=null, rate=null, mult=null, boardPt=null, pp=null, routeNA=false;
+  if (type==='domestic') {
+    if (seg.ap1&&seg.ap2) {
+      miles=getMiles(seg.ap1,seg.ap2);
+      rate=getDomRate(seg.fare,seg.seat);
+      mult=2.0;
+      boardPt=rate!==null?getDomBoardPt(seg.fare,seg.seat):null;
+      if (miles!==null&&rate!==null) pp=Math.round(miles*rate/100*mult)+boardPt;
+      if (miles===null) routeNA=true;
+    }
+  } else if (type==='international') {
+    if (seg.intlOrigin&&seg.intlDest) {
+      const route=getIntlRoute(seg.intlOrigin,seg.intlDest);
+      if (route) {
+        miles=route.miles; mult=route.mult;
+        rate=INT_CLASS_RATE[seg.bookClass];
+        boardPt=INT_BOARD_PT[seg.bookClass]??0;
+        if (rate!==undefined) pp=Math.round(miles*rate/100*mult)+boardPt;
+      } else { routeNA=true; }
+    }
+  } else { // intl_domestic
+    if (seg.ap1&&seg.ap2) {
+      miles=getMiles(seg.ap1,seg.ap2);
+      rate=INTL_DOM_RATE[seg.bookClass];
+      mult=2.0;
+      boardPt=INTL_DOM_BOARD_PT[seg.bookClass]??0;
+      if (miles!==null&&rate!==undefined) pp=Math.round(miles*rate/100*mult)+boardPt;
+      if (miles===null) routeNA=true;
+    }
+  }
+  const ppDisp = pp!==null ? pp*(seg.roundtrip?2:1) : null;
+
+  // Type selector buttons
+  const typeRow = `
+    <div class="seg-type-row">
+      <button class="seg-type-btn${type==='domestic'?' active-dom':''}" onclick="updateSeg(${seg.id},'type','domestic')">国内線</button>
+      <button class="seg-type-btn${type==='international'?' active-intl':''}" onclick="updateSeg(${seg.id},'type','international')">国際線</button>
+      <button class="seg-type-btn${type==='intl_domestic'?' active-idom':''}" onclick="updateSeg(${seg.id},'type','intl_domestic')">国際券/国内区間</button>
+    </div>`;
+
+  // Fields based on type
+  let fields='';
+  if (type==='domestic') {
+    const dests=seg.ap1?getDests(seg.ap1):ALL_AIRPORTS;
+    fields=`
+      <div class="field"><label>出発空港</label>
+        <select onchange="updateSeg(${seg.id},'ap1',this.value)">
+          <option value="">選択してください</option>${apOpts(ALL_AIRPORTS,seg.ap1)}
+        </select></div>
+      <div class="field"><label>到着空港</label>
+        <select onchange="updateSeg(${seg.id},'ap2',this.value)">
+          <option value="">選択してください</option>${apOpts(dests,seg.ap2)}
+        </select></div>
+      <div class="field"><label>座席クラス</label>
+        <select onchange="updateSeg(${seg.id},'seat',this.value)">
+          <option value="エコノミークラス"${seg.seat==='エコノミークラス'?' selected':''}>エコノミークラス</option>
+          <option value="ファーストクラス"${seg.seat==='ファーストクラス'?' selected':''}>ファーストクラス</option>
+        </select></div>
+      <div class="field"><label>予約クラス・運賃</label>
+        <select onchange="updateSeg(${seg.id},'fare',this.value)">
+          ${FARES.map(f=>`<option value="${h(f)}"${f===seg.fare?' selected':''}>${h(f)}</option>`).join('')}
+        </select></div>`;
+  } else if (type==='international') {
+    const routes=getIntlRoutes(seg.intlOrigin);
+    fields=`
+      <div class="field"><label>出発地（日本側）</label>
+        <select onchange="updateSeg(${seg.id},'intlOrigin',this.value)">
+          ${INT_ORIGINS.map(o=>`<option value="${h(o)}"${o===seg.intlOrigin?' selected':''}>${h(o)}</option>`).join('')}
+        </select></div>
+      <div class="field"><label>海外都市</label>
+        <select onchange="updateSeg(${seg.id},'intlDest',this.value)">
+          <option value="">選択してください</option>
+          ${routes.map(r=>`<option value="${h(r.dest)}"${r.dest===seg.intlDest?' selected':''}>${h(r.dest)}（×${r.mult}）</option>`).join('')}
+        </select></div>
+      <div class="field"><label>予約クラス</label>
+        <select onchange="updateSeg(${seg.id},'bookClass',this.value)">
+          ${injectSelectedIntl(INT_CLASSES_HTML, seg.bookClass)}
+        </select></div>`;
+  } else { // intl_domestic
+    const dests=seg.ap1?getDests(seg.ap1):ALL_AIRPORTS;
+    fields=`
+      <div class="field"><label>出発空港</label>
+        <select onchange="updateSeg(${seg.id},'ap1',this.value)">
+          <option value="">選択してください</option>${apOpts(ALL_AIRPORTS,seg.ap1)}
+        </select></div>
+      <div class="field"><label>到着空港</label>
+        <select onchange="updateSeg(${seg.id},'ap2',this.value)">
+          <option value="">選択してください</option>${apOpts(dests,seg.ap2)}
+        </select></div>
+      <div class="field"><label>予約クラス</label>
+        <select onchange="updateSeg(${seg.id},'bookClass',this.value)">
+          ${injectSelectedIntl(IDOM_CLASSES_HTML, seg.bookClass)}
+        </select></div>
+      <div class="intl-note">国際航空券発券の国内区間（2026/5/19以降）：F/A→400pt、Y/B/M→400pt、U/H/Q/V/W/S/L/K→0pt。PPは通常通り積算（路線倍率×2.0）。</div>`;
+  }
+
+  // Miles (segment)
+  const segMiles = calcFlightMiles(seg);
+  const segMilesDisp = segMiles !== null ? segMiles * (seg.roundtrip ? 2 : 1) : null;
+
+  // Formula display
+  const fv = (v, cls='') => `<div class="formula-value${cls?' '+cls:''}">${v}</div>`;
+  const multLabel = type==='international'
+    ? `×${mult}（${mult===1.5?'アジア/オセアニア・ウラジオストク':'その他'}）`
+    : '×2.0（国内線）';
+  const bpLabel = boardPt===null ? '-' : boardPt.toLocaleString();
+
+  const formula = `
+    <details class="seg-details">
+      <summary class="seg-summary">計算式を表示</summary>
+      <div class="segment-metrics">
+        <div class="formula-line">
+          <div class="formula-label">区間基本マイレージ</div>
+          ${fv(miles===null?(routeNA?'路線なし':'-'):(miles?.toLocaleString()||'-'), miles===null?(routeNA?'na':'empty'):'') }
+        </div>
+        <div class="formula-op-row">×</div>
+        <div class="formula-line">
+          <div class="formula-label">積算率</div>
+          ${fv(rate===undefined||rate===null?'-':`${rate}%`, (rate===undefined||rate===null)?'empty':'')}
+        </div>
+        <div class="formula-op-row">×</div>
+        <div class="formula-line">
+          <div class="formula-label">路線倍率</div>
+          ${fv(mult===null?'-':multLabel)}
+        </div>
+        <div class="formula-op-row">＋</div>
+        <div class="formula-line">
+          <div class="formula-label">搭乗ポイント</div>
+          ${fv(bpLabel, boardPt===null?'empty':'')}
+        </div>
+        <div class="formula-op-row">＝</div>
+        <div class="formula-line">
+          <div class="formula-label">PP${seg.roundtrip?'（往復）':''}</div>
+          ${fv(ppDisp===null?'-':ppDisp.toLocaleString(), ppDisp===null?'empty':'pp')}
+        </div>
+        <hr style="margin:8px 0;border:none;border-top:1px dashed #d8e4f4;">
+        <div class="formula-line">
+          <div class="formula-label">フライトマイル${seg.roundtrip?'（往復）':''}</div>
+          ${fv(segMilesDisp===null?'-':segMilesDisp.toLocaleString(), segMilesDisp===null?'empty':'')}
+        </div>
+        <div class="segment-formula-note">PP ＝ 基本マイレージ × 積算率 × 路線倍率 ＋ 搭乗ポイント<br>フライトマイル ＝ 基本マイレージ × 積算率（ボーナス除く）</div>
+      </div>
+    </details>`;
 
   return `
-    <div class="segment-card">
+    <div class="segment-card${cardClass?' '+cardClass:''}">
       <div class="segment-top">
-        <div class="segment-label">区間 ${index + 1}</div>
-        ${
-          totalSegs > 1
-            ? `<button class="btn-del" onclick="removeSegment(${seg.id})" aria-label="区間 ${index + 1} を削除">✕</button>`
-            : `<div class="btn-del placeholder" aria-hidden="true">✕</div>`
-        }
+        <div class="segment-label ${labelClass}">区間 ${index+1}　${labelText}</div>
+        ${total>1
+          ?`<button class="btn-del" onclick="removeSegment(${seg.id})">✕</button>`
+          :`<div class="btn-del placeholder">✕</div>`}
       </div>
-
-      <div class="field-grid">
-        <div class="field">
-          <label>出発空港</label>
-          <select onchange="updateSeg(${seg.id}, 'ap1', this.value)">
-            <option value="">選択してください</option>
-            ${apOpts(ALL_AIRPORTS, seg.ap1)}
-          </select>
-        </div>
-
-        <div class="field">
-          <label>到着空港</label>
-          <select onchange="updateSeg(${seg.id}, 'ap2', this.value)">
-            <option value="">選択してください</option>
-            ${apOpts(dests, seg.ap2)}
-          </select>
-        </div>
-
-        <div class="field">
-          <label>座席クラス</label>
-          <select onchange="updateSeg(${seg.id}, 'seat', this.value)">
-            <option value="エコノミークラス"${seg.seat === "エコノミークラス" ? " selected" : ""}>エコノミークラス</option>
-            <option value="ファーストクラス"${seg.seat === "ファーストクラス" ? " selected" : ""}>ファーストクラス</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label>予約クラス</label>
-          <select onchange="updateSeg(${seg.id}, 'fare', this.value)">
-            ${FARES.map(f => `<option value="${h(f)}"${f === seg.fare ? " selected" : ""}>${h(f)}</option>`).join("")}
-          </select>
-        </div>
-      </div>
-
+      ${typeRow}
+      <div class="field-grid">${fields}</div>
       <div class="seg-options">
         <label class="roundtrip-toggle">
-          <input type="checkbox"
-            ${seg.roundtrip ? "checked" : ""}
-            onchange="updateSeg(${seg.id}, 'roundtrip', this.checked)" />
-          <span>この区間を往復（同じ条件）として計算する</span>
+          <input type="checkbox" ${seg.roundtrip?"checked":""} onchange="updateSeg(${seg.id},'roundtrip',this.checked)">
+          <span>この区間を往復として計算</span>
         </label>
       </div>
-
-      <details class="seg-details">
-        <summary class="seg-summary">区間の計算式を表示</summary>
-        <div class="segment-metrics">
-          <div class="formula-line">
-            <div class="formula-label">区間基本マイレージ</div>
-            <div class="formula-value ${(!seg.ap1 || !seg.ap2) ? "empty" : (miles === null ? "na" : "")}">
-              ${!seg.ap1 || !seg.ap2 ? "-" : (miles === null ? "路線なし" : miles.toLocaleString())}
-            </div>
-          </div>
-
-          <div class="formula-op-row">×</div>
-
-          <div class="formula-line">
-            <div class="formula-label">積算率（予約クラス・運賃）</div>
-            <div class="formula-value ${(miles === null || rate === null) ? (miles !== null && rate === null ? "na" : "empty") : ""}">
-              ${!seg.ap1 || !seg.ap2
-                ? "-"
-                : (miles === null
-                    ? "-"
-                    : (rate === null ? "該当なし" : `${rate}%`))}
-            </div>
-          </div>
-
-          <div class="formula-op-row">×</div>
-
-          <div class="formula-line">
-            <div class="formula-label">路線倍率</div>
-            <div class="formula-value">×${ROUTE_MULT}</div>
-          </div>
-
-          <div class="formula-op-row">＋</div>
-
-          <div class="formula-line">
-            <div class="formula-label">搭乗ポイント</div>
-            <div class="formula-value ${board === null ? "empty" : ""}">
-              ${board === null ? "-" : board.toLocaleString()}
-            </div>
-          </div>
-
-          <div class="formula-op-row">＝</div>
-
-          <div class="formula-line">
-            <div class="formula-label">プレミアムポイント${seg.roundtrip ? "（往復）" : ""}</div>
-            <div class="formula-value pp ${pp === null ? "empty" : ""}">
-              ${pp === null ? "-" : pp.toLocaleString()}
-            </div>
-          </div>
-
-          <div class="segment-formula-note">
-            プレミアムポイント ＝ 区間基本マイレージ × 積算率（予約クラス・運賃） × 路線倍率 ＋ 搭乗ポイント
-          </div>
-        </div>
-      </details>
-    </div>
-  `;
+      ${formula}
+    </div>`;
 }
 
 function renderContent() {
-  const tab = getTab();
-  if (!tab) {
-    document.getElementById("tabContent").innerHTML = "";
-    updateResult();
-    return;
-  }
+  const tab=getTab();
+  if (!tab) { document.getElementById("tabContent").innerHTML=""; updateResult(); return; }
 
-  const totalPP = tab.segments.reduce((s, seg) => {
-    const base = calcPP(seg);
-    if (base === null) return s;
-    const mult = seg.roundtrip ? 2 : 1;
-    return s + base * mult;
-  }, 0);
-  const amounts = (tab.amounts && tab.amounts.length) ? tab.amounts : [""];
-  const totalAmount = amounts.reduce((s, a) => s + (parseFloat(a) || 0), 0);
-  const ppRate = (totalAmount > 0 && totalPP > 0) ? (totalAmount / totalPP).toFixed(1) : "-";
+  const totalPP = tab.segments.reduce((s,seg)=>{
+    const base=calcPP(seg); if (base===null) return s;
+    return s + base*(seg.roundtrip?2:1);
+  },0);
+  const amounts=(tab.amounts&&tab.amounts.length)?tab.amounts:[""];
+  const totalAmount=amounts.reduce((s,a)=>s+(parseFloat(a)||0),0);
+  const ppRate=(totalAmount>0&&totalPP>0)?(totalAmount/totalPP).toFixed(1):"-";
+  const bonusOptionId = tab.bonusOptionId || 'none';
+  const totalBonusRate = getBonusRate(bonusOptionId);
+  const baseFlightMiles = tab.segments.reduce((s,seg)=>{
+    const m=calcFlightMiles(seg); if (m===null) return s;
+    return s + m*(seg.roundtrip?2:1);
+  },0);
+  const bonusMiles = Math.round(baseFlightMiles * totalBonusRate / 100);
+  const totalMiles = baseFlightMiles + bonusMiles;
 
-  document.getElementById("tabContent").innerHTML = `
+  document.getElementById("tabContent").innerHTML=`
     <div class="content">
       <div class="card">
         <div class="card-title">
           <div class="card-title-main">フライト区間</div>
-          <div class="card-sub">路線倍率 ×${ROUTE_MULT}</div>
         </div>
-
         <div class="segment-list">
           ${tab.segments.length
-            ? tab.segments.map((seg, i) => renderSegCard(seg, i, tab.segments.length)).join("")
-            : `<div class="empty-msg">「区間を追加」から路線を追加してください</div>`}
+            ? tab.segments.map((seg,i)=>renderSegCard(seg,i,tab.segments.length)).join("")
+            : `<div class="empty-msg">区間を追加してください</div>`}
         </div>
-
         <button class="btn-add" onclick="addSegment()">＋ 区間を追加</button>
       </div>
-
       <div class="card">
         <div class="card-title">
           <div class="card-title-main">PP単価計算</div>
-          <div class="card-sub">旅行代金の合計から算出</div>
+          <div class="card-sub">旅行代金から算出</div>
         </div>
-
         <div class="amount-list">
-          ${amounts.map((amt, idx) => `
+          ${amounts.map((amt,idx)=>`
             <div class="amount-row">
               <div class="amount-field">
-                <label>旅行総額${amounts.length > 1 ? ` ${idx + 1}` : ""}</label>
+                <label>旅行総額${amounts.length>1?` ${idx+1}`:""}</label>
                 <div class="amount-wrap">
-                  <input
-                    type="number"
-                    placeholder="30000"
-                    min="0"
-                    value="${h(amt)}"
-                    oninput="onAmountInput(${idx}, this.value)"
-                  />
+                  <input type="number" placeholder="30000" min="0" value="${h(amt)}"
+                    oninput="onAmountInput(${idx},this.value)">
                   <span class="yen">円</span>
                 </div>
               </div>
-              ${amounts.length > 1 ? `<button class="btn-del" onclick="removeAmount(${idx})" aria-label="金額 ${idx + 1} を削除">✕</button>` : `<div class="btn-del placeholder" aria-hidden="true">✕</div>`}
-            </div>
-          `).join("")}
+              ${amounts.length>1
+                ?`<button class="btn-del" onclick="removeAmount(${idx})">✕</button>`
+                :`<div class="btn-del placeholder">✕</div>`}
+            </div>`).join("")}
         </div>
-
         <button class="btn-add-amount" onclick="addAmount()">＋ 金額を追加</button>
-
         <div class="amount-total-box">
           <div class="amount-total-label">合計金額</div>
-          <div class="amount-total-value">${totalAmount > 0 ? totalAmount.toLocaleString() : "-"}</div>
+          <div class="amount-total-value">${totalAmount>0?totalAmount.toLocaleString():"-"}</div>
         </div>
-
         <div class="results">
           <div class="result-box">
             <div class="r-label">合計 PP</div>
             <div class="r-val" id="r-totalPP">${totalPP.toLocaleString()}</div>
             <div class="r-unit">ポイント</div>
           </div>
-
           <div class="result-box">
             <div class="r-label">旅行総額</div>
-            <div class="r-val" id="r-amount">${totalAmount > 0 ? totalAmount.toLocaleString() : "-"}</div>
+            <div class="r-val" id="r-amount">${totalAmount>0?totalAmount.toLocaleString():"-"}</div>
             <div class="r-unit">円</div>
           </div>
-
           <div class="result-box hl">
             <div class="r-label">PP 単価</div>
             <div class="r-val" id="r-rate">${ppRate}</div>
             <div class="r-unit">円 / PP</div>
           </div>
         </div>
+        <div class="bonus-section">
+          <div class="card-title" style="margin-bottom:10px;">
+            <div class="card-title-main">ボーナスマイル設定</div>
+          </div>
+          <div class="field-grid">
+            <div class="field"><label>フライトボーナスマイル積算率</label>
+              <select onchange="onBonusChange('bonusOptionId',this.value)">
+                ${BONUS_OPTIONS.map(o=>`<option value="${h(o.id)}"${o.id===bonusOptionId?' selected':''}>${h(o.label)}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+          <div class="bonus-total">適用ボーナス：+${totalBonusRate}%</div>
+        </div>
+        <div class="results results-miles">
+          <div class="result-box">
+            <div class="r-label">基本マイル</div>
+            <div class="r-val" id="r-baseMiles">${baseFlightMiles.toLocaleString()}</div>
+            <div class="r-unit">マイル</div>
+          </div>
+          <div class="result-box">
+            <div class="r-label">ボーナスマイル +${totalBonusRate}%</div>
+            <div class="r-val" id="r-bonusMiles">${bonusMiles.toLocaleString()}</div>
+            <div class="r-unit" id="r-bonusLabel">マイル</div>
+          </div>
+          <div class="result-box hl">
+            <div class="r-label">合計マイル</div>
+            <div class="r-val" id="r-totalMiles">${totalMiles.toLocaleString()}</div>
+            <div class="r-unit">マイル</div>
+          </div>
+        </div>
       </div>
-    </div>
-  `;
+    </div>`;
 
   attachFocusScrollHandlers();
   updateResult();
 }
 
 function updateResult() {
-  const tab = getTab();
-  const totalPP = tab
-    ? tab.segments.reduce((s, seg) => {
-        const base = calcPP(seg);
-        if (base === null) return s;
-        const mult = seg.roundtrip ? 2 : 1;
-        return s + base * mult;
-      }, 0)
-    : 0;
-  const amounts = tab && tab.amounts && tab.amounts.length ? tab.amounts : [""];
-  const totalAmount = amounts.reduce((s, a) => s + (parseFloat(a) || 0), 0);
-  const ppRate = (totalAmount > 0 && totalPP > 0) ? (totalAmount / totalPP).toFixed(1) : "-";
-
-  const setText = (id, value) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  };
-
-  setText("r-totalPP", totalPP.toLocaleString());
-  setText("r-amount", totalAmount > 0 ? totalAmount.toLocaleString() : "-");
-  setText("r-rate", ppRate);
-
-  setText("b-totalPP", totalPP.toLocaleString());
-  setText("b-amount", totalAmount > 0 ? totalAmount.toLocaleString() : "-");
-  setText("b-rate", ppRate);
+  const tab=getTab();
+  const totalPP=tab?tab.segments.reduce((s,seg)=>{
+    const base=calcPP(seg); if(base===null) return s;
+    return s+base*(seg.roundtrip?2:1);
+  },0):0;
+  const amounts=tab&&tab.amounts&&tab.amounts.length?tab.amounts:[""];
+  const totalAmount=amounts.reduce((s,a)=>s+(parseFloat(a)||0),0);
+  const ppRate=(totalAmount>0&&totalPP>0)?(totalAmount/totalPP).toFixed(1):"-";
+  const totalBonusRate=getBonusRate(tab?.bonusOptionId||'none');
+  const baseFlightMiles=tab?tab.segments.reduce((s,seg)=>{
+    const m=calcFlightMiles(seg); if(m===null) return s;
+    return s+m*(seg.roundtrip?2:1);
+  },0):0;
+  const bonusMiles=Math.round(baseFlightMiles*totalBonusRate/100);
+  const totalMiles=baseFlightMiles+bonusMiles;
+  const setText=(id,v)=>{ const el=document.getElementById(id); if(el) el.textContent=v; };
+  setText("r-totalPP",totalPP.toLocaleString());
+  setText("r-amount",totalAmount>0?totalAmount.toLocaleString():"-");
+  setText("r-rate",ppRate);
+  setText("r-baseMiles",baseFlightMiles.toLocaleString());
+  setText("r-bonusMiles",bonusMiles.toLocaleString());
+  setText("r-bonusLabel",`マイル（+${totalBonusRate}%）`);
+  setText("r-totalMiles",totalMiles.toLocaleString());
+  setText("b-totalPP",totalPP.toLocaleString());
+  setText("b-totalMiles",totalMiles.toLocaleString());
+  setText("b-amount",totalAmount>0?totalAmount.toLocaleString():"-");
+  setText("b-rate",ppRate);
 }
 
-// ── Boot ──────────────────────────────────────────────────────────────────────
+function scrollFieldIntoView(el) {
+  if (!el||typeof window==="undefined") return;
+  const rect=el.getBoundingClientRect();
+  const vh=window.innerHeight||document.documentElement.clientHeight||0;
+  const offset=140;
+  if (rect.top>=offset&&rect.bottom<=vh) return;
+  const currentY=window.pageYOffset||document.documentElement.scrollTop||0;
+  window.scrollTo({top:Math.max(currentY+rect.top-offset,0),behavior:"smooth"});
+}
+function attachFocusScrollHandlers() {
+  const root=document.getElementById("tabContent"); if (!root) return;
+  root.querySelectorAll(".segment-card select,.segment-card input[type='number'],.amount-wrap input[type='number']")
+    .forEach(el=>el.addEventListener("focus",()=>{ setTimeout(()=>scrollFieldIntoView(el.closest(".segment-card")||el.closest(".amount-row")||el),80); },{passive:true}));
+}
+
+// ─── Boot ──────────────────────────────────────────────────────────────────────
 initDefaults();
 renderTabs();
 renderContent();
