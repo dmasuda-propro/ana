@@ -647,7 +647,7 @@ function mkTab(name, segDefs=[], amounts=[""]) {
   const id = ST.nextId++;
   const segments = segDefs.map(s => mkSeg(s));
   const amts = Array.isArray(amounts) ? (amounts.length ? amounts : [""]) : [amounts];
-  return { id, name, segments, amounts: amts, statusBonus:0, cardBonus:0 };
+  return { id, name, segments, amounts: amts, statusId:'regular', cardId:'amc_partner' };
 }
 
 function getTab(id) { return ST.tabs.find(t => t.id===(id ?? ST.activeId)); }
@@ -785,33 +785,48 @@ function onBonusChange(field, val) {
 }
 
 // ─── Flight bonus mile rate (Premium Member Service: フライトボーナスマイル) ─────
-// 参照: 貼付のANA案内にある積算率（%）
-const BONUS_OPTIONS = [
-  { id: 'none', label: '—（一般会員）', rate: 0 },
-  { id: 'bronze_y1', label: 'ブロンズ（1年目）+40%', rate: 40 },
-  { id: 'bronze_y2', label: 'ブロンズ（継続2年以上）+50%', rate: 50 },
-  { id: 'bronze_y1_gold', label: 'ブロンズ（1年目）＋ANAゴールド/カードプレミアム所持 +45%', rate: 45 },
-  { id: 'bronze_y2_gold', label: 'ブロンズ（継続2年以上）＋ANAゴールド/カードプレミアム所持 +55%', rate: 55 },
-
-  { id: 'platinum_y1', label: 'プラチナ（1年目）+90%', rate: 90 },
-  { id: 'platinum_y2', label: 'プラチナ（継続2年以上）+100%', rate: 100 },
-  { id: 'platinum_y1_gold', label: 'プラチナ（1年目）＋ANAゴールド/カードプレミアム所持 +95%', rate: 95 },
-  { id: 'platinum_y2_gold', label: 'プラチナ（継続2年以上）＋ANAゴールド/カードプレミアム所持 +105%', rate: 105 },
-
-  { id: 'diamond_y1', label: 'ダイヤモンド（1年目）+115%', rate: 115 },
-  { id: 'diamond_y2', label: 'ダイヤモンド（継続2年以上）+125%', rate: 125 },
-  { id: 'diamond_y1_gold', label: 'ダイヤモンド（1年目）＋ANAゴールド/カードプレミアム所持 +120%', rate: 120 },
-  { id: 'diamond_y2_gold', label: 'ダイヤモンド（継続2年以上）＋ANAゴールド/カードプレミアム所持 +130%', rate: 130 },
-
-  // スーパーフライヤーズ会員（ステイタス保有時は高い方のみ適用＝ここでは単独選択にする）
-  { id: 'sfc_standard', label: 'スーパーフライヤーズ会員（一般カード）+35%', rate: 35 },
-  { id: 'sfc_gold', label: 'スーパーフライヤーズ会員（ゴールドカード）+40%', rate: 40 },
-  { id: 'sfc_premium', label: 'スーパーフライヤーズ会員（カードプレミアム）+50%', rate: 50 },
+// 参照: ANA案内の積算率（%）
+const STATUS_OPTIONS = [
+  { id: 'regular', label: '一般会員', base: 0 },
+  { id: 'bronze_y1', label: 'ブロンズ（1年目）', base: 40 },
+  { id: 'bronze_y2', label: 'ブロンズ（継続2年以上）', base: 50 },
+  { id: 'platinum_y1', label: 'プラチナ（1年目）', base: 90 },
+  { id: 'platinum_y2', label: 'プラチナ（継続2年以上）', base: 100 },
+  { id: 'diamond_y1', label: 'ダイヤモンド（1年目）', base: 115 },
+  { id: 'diamond_y2', label: 'ダイヤモンド（継続2年以上）', base: 125 },
 ];
 
-function getBonusRate(optionId) {
-  const opt = BONUS_OPTIONS.find(o => o.id === optionId);
-  return opt ? opt.rate : 0;
+const CARD_OPTIONS = [
+  { id: 'amc_partner', label: 'ANAマイレージクラブカード（提携カード含む）', bonus: 10 },
+  { id: 'ana_general', label: 'ANAカード 一般', bonus: 10 },
+  { id: 'ana_student', label: 'ANAカード 学生用', bonus: 10 },
+  { id: 'ana_wide', label: 'ANAカード ワイド', bonus: 25 },
+  { id: 'ana_gold', label: 'ANAカード ゴールド', bonus: 25 },
+  { id: 'ana_premium', label: 'ANAカード プレミアム', bonus: 50 },
+  { id: 'sfc_general', label: 'ANAスーパーフライヤーズカード 一般', bonus: 35 },
+  { id: 'sfc_gold', label: 'ANAスーパーフライヤーズカード ゴールド', bonus: 40 },
+  { id: 'sfc_premium', label: 'ANAスーパーフライヤーズカード プレミアム', bonus: 50 },
+];
+
+function getBonusRate(statusId, cardId) {
+  const status = STATUS_OPTIONS.find(s => s.id === statusId);
+  const card = CARD_OPTIONS.find(c => c.id === cardId);
+  const statusRate = status ? status.base : 0;
+  const cardRate = card ? card.bonus : 0;
+  const isPremiumMember = statusId !== 'regular';
+
+  if (!isPremiumMember) {
+    return cardRate;
+  }
+
+  const hasGoldOrPremiumCard = 
+    cardId === 'ana_gold' || 
+    cardId === 'ana_premium' || 
+    cardId === 'sfc_gold' || 
+    cardId === 'sfc_premium';
+  
+  const statusRateWithCardBonus = hasGoldOrPremiumCard ? statusRate + 5 : statusRate;
+  return Math.max(statusRateWithCardBonus, cardRate);
 }
 
 // ─── PP calculation ───────────────────────────────────────────────────────────
@@ -1037,8 +1052,9 @@ function renderContent() {
   const amounts=(tab.amounts&&tab.amounts.length)?tab.amounts:[""];
   const totalAmount=amounts.reduce((s,a)=>s+(parseFloat(a)||0),0);
   const ppRate=(totalAmount>0&&totalPP>0)?(totalAmount/totalPP).toFixed(1):"-";
-  const bonusOptionId = tab.bonusOptionId || 'none';
-  const totalBonusRate = getBonusRate(bonusOptionId);
+  const statusId = tab.statusId || 'regular';
+  const cardId = tab.cardId || 'amc_partner';
+  const totalBonusRate = getBonusRate(statusId, cardId);
   const baseFlightMiles = tab.segments.reduce((s,seg)=>{
     const m=calcFlightMiles(seg); if (m===null) return s;
     return s + m*(seg.roundtrip?2:1);
@@ -1107,9 +1123,14 @@ function renderContent() {
             <div class="card-title-main">ボーナスマイル設定</div>
           </div>
           <div class="field-grid">
-            <div class="field"><label>フライトボーナスマイル積算率</label>
-              <select onchange="onBonusChange('bonusOptionId',this.value)">
-                ${BONUS_OPTIONS.map(o=>`<option value="${h(o.id)}"${o.id===bonusOptionId?' selected':''}>${h(o.label)}</option>`).join('')}
+            <div class="field"><label>会員ランク</label>
+              <select onchange="onBonusChange('statusId',this.value)">
+                ${STATUS_OPTIONS.map(o=>`<option value="${h(o.id)}"${o.id===statusId?' selected':''}>${h(o.label)}（+${o.base}%）</option>`).join('')}
+              </select>
+            </div>
+            <div class="field"><label>カード種別</label>
+              <select onchange="onBonusChange('cardId',this.value)">
+                ${CARD_OPTIONS.map(o=>`<option value="${h(o.id)}"${o.id===cardId?' selected':''}>${h(o.label)}</option>`).join('')}
               </select>
             </div>
           </div>
@@ -1148,7 +1169,7 @@ function updateResult() {
   const amounts=tab&&tab.amounts&&tab.amounts.length?tab.amounts:[""];
   const totalAmount=amounts.reduce((s,a)=>s+(parseFloat(a)||0),0);
   const ppRate=(totalAmount>0&&totalPP>0)?(totalAmount/totalPP).toFixed(1):"-";
-  const totalBonusRate=getBonusRate(tab?.bonusOptionId||'none');
+  const totalBonusRate=getBonusRate(tab?.statusId||'regular', tab?.cardId||'amc_partner');
   const baseFlightMiles=tab?tab.segments.reduce((s,seg)=>{
     const m=calcFlightMiles(seg); if(m===null) return s;
     return s+m*(seg.roundtrip?2:1);
