@@ -638,7 +638,7 @@ function mkSeg(params={}) {
     type='domestic', ap1='', ap2='',
     seat='エコノミークラス', fare='スタンダード',
     intlOrigin='東京', intlDest='',
-    bookClass='Y', roundtrip=false
+    bookClass='Y', roundtrip=true
   } = params;
   return { id:ST.nextSegId++, type, ap1, ap2, seat, fare, intlOrigin, intlDest, bookClass, roundtrip };
 }
