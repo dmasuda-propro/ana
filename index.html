@@ -647,7 +647,7 @@ function mkTab(name, segDefs=[], amounts=[""]) {
   const id = ST.nextId++;
   const segments = segDefs.map(s => mkSeg(s));
   const amts = Array.isArray(amounts) ? (amounts.length ? amounts : [""]) : [amounts];
-  return { id, name, segments, amounts: amts, statusId:'regular', cardId:'amc_partner' };
+  return { id, name, segments, amounts: amts, statusId: getInitialStatusId(), cardId: getInitialCardId() };
 }
 
 function getTab(id) { return ST.tabs.find(t => t.id===(id ?? ST.activeId)); }
@@ -692,7 +692,12 @@ function initDefaults() {
 }
 
 // ─── Tab operations ───────────────────────────────────────────────────────────
-function switchTab(id) { ST.activeId=id; renderTabs(); renderContent(); }
+function switchTab(id) {
+  ST.activeId=id;
+  const tab=getTab();
+  if (tab) updateUrlParams(tab.statusId, tab.cardId);
+  renderTabs(); renderContent();
+}
 function newTab() {
   const t = mkTab("新規タブ",[{type:'domestic',ap1:'',ap2:'',seat:'エコノミークラス',fare:'スタンダード'}]);
   ST.tabs.push(t); ST.activeId=t.id; renderTabs(); renderContent();
@@ -781,6 +786,7 @@ function calcFlightMiles(seg) {
 function onBonusChange(field, val) {
   const tab=getTab(); if (!tab) return;
   tab[field]=val;
+  updateUrlParams(tab.statusId, tab.cardId);
   renderContent();
 }
 
@@ -807,6 +813,25 @@ const CARD_OPTIONS = [
   { id: 'sfc_gold', label: 'ANAスーパーフライヤーズカード ゴールド', bonus: 40 },
   { id: 'sfc_premium', label: 'ANAスーパーフライヤーズカード プレミアム', bonus: 50 },
 ];
+
+// ─── URL query params (shareable state) ──────────────────────────────────────
+function getQueryParams() {
+  return new URLSearchParams(window.location.search);
+}
+function getInitialStatusId() {
+  const id = getQueryParams().get('status');
+  return STATUS_OPTIONS.some(s => s.id === id) ? id : 'regular';
+}
+function getInitialCardId() {
+  const id = getQueryParams().get('card');
+  return CARD_OPTIONS.some(c => c.id === id) ? id : 'ana_premium';
+}
+function updateUrlParams(statusId, cardId) {
+  const url = new URL(window.location.href);
+  url.searchParams.set('status', statusId);
+  url.searchParams.set('card', cardId);
+  window.history.replaceState({}, '', url);
+}
 
 function getBonusRate(statusId, cardId) {
   const status = STATUS_OPTIONS.find(s => s.id === statusId);
